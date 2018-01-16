@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
-console.log(mapboxgl)
 
 class Map extends Component {
     constructor(props) {
@@ -15,7 +14,7 @@ class Map extends Component {
     componentDidMount() {
         const { GeolocateControl } = mapboxgl;
         
-        navigator.geolocation.watchPosition((position) => {
+        navigator.geolocation.getCurrentPosition((position) => {
             const { longitude, latitude } = position.coords;
 
             if (longitude !== 0 && latitude !== 0) {
@@ -43,13 +42,9 @@ class Map extends Component {
         //     trackUserLocation: true
         // });
         // this.map.addControl(geolocate);
-        // geolocate.on('geolocate', (position) => {
-        //     console.log('position', position);
-        // })
     }
 
     setUserLocation(longitude, latitude) {
-        console.log(longitude, latitude);
         this.map.setCenter([longitude, latitude]);
         const marker = new mapboxgl.Marker()
             .setLngLat([longitude, latitude])
