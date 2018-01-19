@@ -3,9 +3,15 @@
   src: local('EngraversGothicBold'), url(./fonts/EngraversGothicBold.otf) format('opentype');
 }
 
+@font-face {
+  font-family: 'EngraversGothicBT';
+  src: local('EngraversGothicBT'), url(./fonts/EngraversGothicBT.otf) format('opentype');
+}
+
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Helvetica', sans-serif;
+  font-weight: 400;
 }

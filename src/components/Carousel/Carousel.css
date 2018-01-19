@@ -40,8 +40,10 @@
 }
 
 .carousel-title {
-  font-size: 1.2em;
-  line-height: 1.5em;
+  /* font-size: 1.2em;
+  line-height: 1.5em; */
+  font-size: 18px;
+  line-height: 20px;
 }
 
 .carousel-text {

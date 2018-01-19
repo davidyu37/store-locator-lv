@@ -1,0 +1,69 @@
+.cities-carousel-container {
+  position: relative;
+  height: 150px;
+  /* max-width: 960px; */
+  margin: 0 auto;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.cities-carousel-track {
+  margin-top: 8px;
+  margin-left: 10px;
+  display: flex;
+  height: 100%;
+}
+
+.cities-carousel-card {
+  margin: 5px;
+  flex: 0 0 100px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cities-carousel-card-inner {
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: center; */
+  width: 90px;
+  height: 150px;
+  /* border-radius: 5px; */
+}
+
+.cities-carousel-image-container {
+
+}
+
+.cities-carousel-image {
+  width: 90px;
+  height: 110px;
+}
+
+.cities-carousel-title {
+  /* margin-left: 10px; */
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.cities-carousel-text {
+  padding: 1em;
+  font-size: 14px;
+  white-space: pre-wrap;
+  text-align: left;
+  font-family: sans-serif;
+}
+
+
+.cities-container {
+    margin-top: 20px;
+}
+
+.cities-header {
+    font-family: 'EngraversGothicBT', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    margin-left: 20px;
+}

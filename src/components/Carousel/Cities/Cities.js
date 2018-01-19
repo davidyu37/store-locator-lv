@@ -4,14 +4,44 @@ import TouchCarousel, { clamp } from 'react-touch-carousel';
 import cx from 'classnames';
 
 
-import './Carousel.css';
+import './Cities.css';
+import ny from '../../../images/cities/ny.jpg';
+import dubai from '../../../images/cities/dubai.png';
+import shanghai from '../../../images/cities/shanghai.png';
+import miami from '../../../images/cities/miami.png';
+import paris from '../../../images/cities/paris.png';
+import london from '../../../images/cities/london.png';
 
 
-const query = window.location.search.slice(1);
-const enableLoop = /\bloop\b/.test(query);
-const enableAutoplay = /\bautoplay\b/.test(query);
 
-const cardSize = 130;
+const citiesItems = [
+  {
+    name: "LONDON",
+    image: london
+  },
+  {
+    name: "PARIS",
+    image: paris
+  },
+  {
+    name: "NEW YORK",
+    image: ny
+  },
+  {
+    name: "SHANGHAI",
+    image: shanghai
+  },
+  {
+    name: "DUBAI",
+    image: dubai
+  },
+  {
+    name: "MIAMI",
+    image: miami
+  },
+]
+
+const cardSize = 90;
 const cardPadCount = 1;
 const carouselWidth = clamp(window.innerWidth, 0, 960);
 
@@ -20,22 +50,20 @@ export default class Carousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stores: this.props.stores,
+      stores: citiesItems,
       selectedStore: this.props.selectedStore,
-      infoTrayHeightChange: this.props.infoTrayHeightChange,
     }
     this.carouselContainer = this.carouselContainer.bind(this);
     this.renderCard = this.renderCard.bind(this);
-    this.onStoreClick = this.onStoreClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stores !== this.state.stores) {
-      this.setState({ stores: nextProps.stores });
-    }
-    if (nextProps.selectedStore !== this.state.selectedStore) {
-      this.setState({ selectedStore: nextProps.selectedStore });
-    }
+    // if (nextProps.stores !== this.state.stores) {
+    //   this.setState({ stores: nextProps.stores });
+    // }
+    // if (nextProps.selectedStore !== this.state.selectedStore) {
+    //   this.setState({ selectedStore: nextProps.selectedStore });
+    // }
   }
 
   carouselContainer(props) {
@@ -50,7 +78,7 @@ export default class Carousel extends Component {
     return (
       <div
         className={cx(
-          'carousel-container',
+          'cities-carousel-container',
           {
             'is-active': active,
             'is-dragging': dragging
@@ -58,7 +86,7 @@ export default class Carousel extends Component {
         )}
       >
         <div
-          className='carousel-track'
+          className='cities-carousel-track'
           style={{ transform: `translate3d(${translateX}px, 0, 0)` }}
           {...rest}
         />
@@ -71,37 +99,30 @@ export default class Carousel extends Component {
     return (
       <div
         key={index}
-        className='carousel-card'
-        onClick={() => this.onStoreClick(item)}
+        className='cities-carousel-card'
+        // onClick={() => this.props.selectStore(item)}
       >
         <div
-          className='carousel-card-inner'
+          className='cities-carousel-card-inner'
         >
-          <div className="carousel-image-container">
-            <img className="carousel-image" src={item.image} />
+          <div className="cities-carousel-image-container">
+            <img className="cities-carousel-image" src={item.image} />
           </div>
-          <div className='carousel-title'>{item.name}</div>
+          <div className='cities-carousel-title'>{item.name}</div>
         </div>
       </div>
     )
   }
 
-  onStoreClick(item) {
-    this.props.selectStore(item);
-    this.props.infoTrayStatusChange(true);
-    this.props.infoTrayHeightChange(210);
-    this.props.trayStatusChange(false);
-  }
-
 
   render() {
-    console.log(this.props);
     return (
-      <div>
+      <div className="cities-container">
+        <div className="cities-header">DISCOVER CITIES</div>
         <TouchCarousel
           component={this.carouselContainer}
           cardCount={this.state.stores.length}
-          cardSize={150}
+          cardSize={90}
           renderCard={this.renderCard}
           loop={false}
         />

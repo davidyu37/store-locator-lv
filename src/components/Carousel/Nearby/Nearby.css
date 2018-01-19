@@ -1,0 +1,70 @@
+.nearby-carousel-container {
+  position: relative;
+  height: 80px;
+  /* max-width: 960px; */
+  margin: 0 auto;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.nearby-carousel-track {
+  margin-top: 8px;
+  margin-left: 10px;
+  display: flex;
+  height: 100%;
+}
+
+.nearby-carousel-card {
+  margin: 10px;
+  flex: 0 0 100px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nearby-carousel-card-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 200px;
+  height: 60px;
+  /* border-radius: 5px; */
+}
+
+.nearby-carousel-image-container {
+
+}
+
+.nearby-carousel-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.nearby-carousel-title {
+  margin-left: 10px;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.nearby-carousel-text {
+  padding: 1em;
+  font-size: 14px;
+  white-space: pre-wrap;
+  text-align: left;
+  font-family: sans-serif;
+}
+
+
+.nearby-container {
+    margin-top: 20px;
+}
+
+.nearby-header {
+    font-family: 'EngraversGothicBT', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    margin-left: 20px;
+}

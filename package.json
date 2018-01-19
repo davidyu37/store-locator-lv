@@ -4,9 +4,13 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "i18next": "^10.2.2",
+    "i18next-browser-languagedetector": "^2.1.0",
+    "i18next-xhr-backend": "^1.5.1",
     "mapbox-gl": "^0.43.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-i18next": "^7.3.1",
     "react-scripts": "1.1.0",
     "react-swipeable-bottom-sheet": "^1.1.1",
     "react-touch-carousel": "^0.8.2"

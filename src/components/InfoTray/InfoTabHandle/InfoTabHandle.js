@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
 
-import './TabHandle.css';
+import './InfoTabHandle.css';
 import tabHandleUp from '../../../images/tab-handle-up.png';
 import tabHandleDown from '../../../images/tab-handle-down.png';
 
 
-export default class TabHandle extends Component {
+export default class InfoTabHandle extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,8 +16,8 @@ export default class TabHandle extends Component {
 
   render() {
     return (
-      <div className="tab-handle-container">
-        <img onClick={this.props.toggleTray} className="tab-handle-image" src={this.props.isTrayOpen ? tabHandleDown : tabHandleUp} />
+      <div className="info-tab-handle-container">
+        <img onClick={() => this.toggleTray()} className="info-tab-handle-image" src={this.props.isInfoTrayOpen ? tabHandleDown : tabHandleUp} />
       </div>
     );
   }

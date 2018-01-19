@@ -1,0 +1,87 @@
+.info-tray {
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+}
+
+.info-tray-container {
+    height: 500px;
+}
+
+.info-tray-basic-container {
+  border-bottom: 1px solid rgb(239,239,239);
+  /* padding-bottom: 20px; */
+}
+
+.info-tray-header-container {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+    font-weight: bold;
+    font-family: 'EngraversGothicBold';
+}
+
+.info-tray-header-title {
+  font-size: 20px;
+  line-height: 22px;
+}
+
+.info-tray-close-button {
+  height: 22px;
+  width: 22px;
+}
+
+.info-tray-address-and-image-container {
+  padding: 0 20px;
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-tray-address-container {
+  width: 150px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.info-tray-store-image-container {
+  
+}
+
+.info-tray-store-image {
+  height: 70px;
+  width: 100px
+}
+
+
+
+.info-tray-navigation-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info-tray-navigation-element {
+  display: flex;
+  align-items: center;
+}
+
+.info-tray-navigation-element img {
+  height: 20px;
+  width: 18px;
+}
+
+.info-tray-navigation-element span {
+  padding-left: 10px;
+  padding-right: 30px;
+}
+
+#no-padding {
+  padding-right: 0;
+}

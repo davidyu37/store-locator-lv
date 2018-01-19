@@ -4,14 +4,30 @@ import TouchCarousel, { clamp } from 'react-touch-carousel';
 import cx from 'classnames';
 
 
-import './Carousel.css';
+import './Nearby.css';
+import winwood from '../../../images/wynwood.png';
 
 
-const query = window.location.search.slice(1);
-const enableLoop = /\bloop\b/.test(query);
-const enableAutoplay = /\bautoplay\b/.test(query);
+const nearbyItems = [
+  {
+    name: "WYNWOOD KITCHEN & BAR",
+    image: winwood
+  },
+  {
+    name: "WYNWOOD KITCHEN & BAR",
+    image: winwood
+  },
+  {
+    name: "WYNWOOD KITCHEN & BAR",
+    image: winwood
+  },
+  {
+    name: "WYNWOOD KITCHEN & BAR",
+    image: winwood
+  },
+]
 
-const cardSize = 130;
+const cardSize = 220;
 const cardPadCount = 1;
 const carouselWidth = clamp(window.innerWidth, 0, 960);
 
@@ -20,22 +36,20 @@ export default class Carousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stores: this.props.stores,
+      stores: nearbyItems,
       selectedStore: this.props.selectedStore,
-      infoTrayHeightChange: this.props.infoTrayHeightChange,
     }
     this.carouselContainer = this.carouselContainer.bind(this);
     this.renderCard = this.renderCard.bind(this);
-    this.onStoreClick = this.onStoreClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stores !== this.state.stores) {
-      this.setState({ stores: nextProps.stores });
-    }
-    if (nextProps.selectedStore !== this.state.selectedStore) {
-      this.setState({ selectedStore: nextProps.selectedStore });
-    }
+    // if (nextProps.stores !== this.state.stores) {
+    //   this.setState({ stores: nextProps.stores });
+    // }
+    // if (nextProps.selectedStore !== this.state.selectedStore) {
+    //   this.setState({ selectedStore: nextProps.selectedStore });
+    // }
   }
 
   carouselContainer(props) {
@@ -50,7 +64,7 @@ export default class Carousel extends Component {
     return (
       <div
         className={cx(
-          'carousel-container',
+          'nearby-carousel-container',
           {
             'is-active': active,
             'is-dragging': dragging
@@ -58,7 +72,7 @@ export default class Carousel extends Component {
         )}
       >
         <div
-          className='carousel-track'
+          className='nearby-carousel-track'
           style={{ transform: `translate3d(${translateX}px, 0, 0)` }}
           {...rest}
         />
@@ -71,33 +85,26 @@ export default class Carousel extends Component {
     return (
       <div
         key={index}
-        className='carousel-card'
-        onClick={() => this.onStoreClick(item)}
+        className='nearby-carousel-card'
+        // onClick={() => this.props.selectStore(item)}
       >
         <div
-          className='carousel-card-inner'
+          className='nearby-carousel-card-inner'
         >
-          <div className="carousel-image-container">
-            <img className="carousel-image" src={item.image} />
+          <div className="nearby-carousel-image-container">
+            <img className="nearby-carousel-image" src={item.image} />
           </div>
-          <div className='carousel-title'>{item.name}</div>
+          <div className='nearby-carousel-title'>{item.name}</div>
         </div>
       </div>
     )
   }
 
-  onStoreClick(item) {
-    this.props.selectStore(item);
-    this.props.infoTrayStatusChange(true);
-    this.props.infoTrayHeightChange(210);
-    this.props.trayStatusChange(false);
-  }
-
 
   render() {
-    console.log(this.props);
     return (
-      <div>
+      <div className="nearby-container">
+        <div className="nearby-header">NEARBY EXPERIENCES</div>
         <TouchCarousel
           component={this.carouselContainer}
           cardCount={this.state.stores.length}
