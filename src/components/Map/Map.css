@@ -1,6 +1,45 @@
-.mapView {
-    position: 'absolute';
-    top: 0;
-    bottom: 0;
-    width: '100%';
+
+/* Hide mapbox logo */
+.mapboxgl-ctrl-logo {
+    display: none !important; 
 }
+
+/* Hide mapbox info button */
+.mapboxgl-ctrl-attrib.mapboxgl-compact:after {
+    display: none !important; 
+}
+
+/* Customize Geolocate Control Starts */
+.mapboxgl-ctrl-group {
+    box-shadow: none;
+}
+
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
+    background-position: center;
+    background-image: url("../../images/map-controls/location-icon.png");
+    background-repeat: no-repeat;
+}
+
+.mapboxgl-ctrl-group > button.mapboxgl-ctrl-geolocate {
+    width: 36px !important;
+}
+
+/* Can do custom animation here */
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-waiting {
+    -webkit-animation: none;
+    animation: none;
+}
+
+/* Can change the look of active geolocate button here */
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active {
+    background-image: url("../../images/map-controls/location-icon.png");;
+}
+/* Customize Geolocate Control Ends */
+
+/* Main map container */
+.map-view {
+    z-index: 0;
+    width: 100%;
+    height: calc(100vh - 180px);
+}
+

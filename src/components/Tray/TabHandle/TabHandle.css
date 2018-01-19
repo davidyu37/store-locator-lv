@@ -1,0 +1,10 @@
+.tab-handle-container {
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tab-handle-image {
+    height: 10px;
+}

@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'EngraversGothicBold';
+  src: local('EngraversGothicBold'), url(./fonts/EngraversGothicBold.otf) format('opentype');
+}
+
+
 body {
   margin: 0;
   padding: 0;
