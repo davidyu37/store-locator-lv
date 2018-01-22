@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@turf/distance": "^5.1.5",
     "classnames": "^2.2.5",
     "i18next": "^10.2.2",
     "i18next-browser-languagedetector": "^2.1.0",
