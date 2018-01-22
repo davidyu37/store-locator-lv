@@ -37,13 +37,13 @@ export default class Tray extends Component {
       this.setState({ selectedStore: nextProps.selectedStore });
     }
     if (nextProps.infoTrayHeight !== this.state.height) {
-      console.log('got something')
+      // console.log('got something')
       this.setState({ height: nextProps.infoTrayHeight });
     }
   }
 
   trayChange(e) {
-    console.log(e);
+    // console.log(e);
     this.setState({ isInfoTrayOpen: e });
     if (!e) {
       this.props.infoTrayStatusChange(e);
@@ -61,7 +61,7 @@ export default class Tray extends Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div className="info-tray">
         <SwipeableBottomSheet

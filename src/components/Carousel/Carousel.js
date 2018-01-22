@@ -20,7 +20,7 @@ export default class Carousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stores: this.props.stores,
+      // stores: this.props.stores,
       selectedStore: this.props.selectedStore,
       infoTrayHeightChange: this.props.infoTrayHeightChange,
     }
@@ -30,9 +30,9 @@ export default class Carousel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stores !== this.state.stores) {
-      this.setState({ stores: nextProps.stores });
-    }
+    // if (nextProps.stores !== this.state.stores) {
+    //   this.setState({ stores: nextProps.stores });
+    // }
     if (nextProps.selectedStore !== this.state.selectedStore) {
       this.setState({ selectedStore: nextProps.selectedStore });
     }
@@ -43,9 +43,9 @@ export default class Carousel extends Component {
 
     const translateX = cursor * cardSize
 
-    let current = -Math.round(cursor) % this.state.stores.length
+    let current = -Math.round(cursor) % this.props.stores.length
     while (current < 0) {
-      current += this.state.stores.length
+      current += this.props.stores.length
     }
     return (
       <div
@@ -67,7 +67,7 @@ export default class Carousel extends Component {
   };
 
   renderCard(index, modIndex) {
-    const item = this.state.stores[modIndex]
+    const item = this.props.stores[modIndex]
     return (
       <div
         key={index}
@@ -95,12 +95,11 @@ export default class Carousel extends Component {
 
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <TouchCarousel
           component={this.carouselContainer}
-          cardCount={this.state.stores.length}
+          cardCount={this.props.stores.length}
           cardSize={150}
           renderCard={this.renderCard}
           loop={false}

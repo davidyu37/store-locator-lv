@@ -44,7 +44,6 @@ export default class Tray extends Component {
     this.setState({ isTrayOpen: !this.state.isTrayOpen })
   }
 
-
   render() {
     return (
       <div className="tray">
@@ -62,18 +61,18 @@ export default class Tray extends Component {
             {/* </div> */}
             {/* <SearchBar /> */}
             <Carousel
-              stores={this.state.stores}
+              stores={this.props.stores}
               selectStore={this.props.selectStore}
               infoTrayStatusChange={this.props.infoTrayStatusChange}
               infoTrayHeightChange={this.props.infoTrayHeightChange}
               trayStatusChange={this.props.trayStatusChange}
             />
             <Nearby
-              stores={this.state.stores}
+              stores={this.props.stores}
               selectStore={this.props.selectStore}
             />
             <Cities
-              stores={this.state.stores}
+              stores={this.props.stores}
               selectStore={this.props.selectStore}
             />
           </div>

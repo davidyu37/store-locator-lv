@@ -19,16 +19,22 @@ class Map extends Component {
                 longitude: -73.9995625,
                 latitude: 40.725389
             },
-            zoom: 15
+            zoom: 15,
+            markers: []
         }
         this.initializeMap = this.initializeMap.bind(this);
+        this.getUserCoordinates = this.getUserCoordinates.bind(this);
+        this.clearMarkers = this.clearMarkers.bind(this);
     }
 
     componentDidMount() {
         // This allow parent component with access to methods within this component
         this.props.onRef(this);
+
+        this.getUserCoordinates();
         
         this.initializeMap();
+
     }
 
     componentWillUnmount() {
@@ -37,10 +43,24 @@ class Map extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.stores) {
+        if(nextProps.stores !== this.props.stores) {
+            const { markers } = this.state;
+            if(markers[0]) {
+                this.clearMarkers(markers);
+            }
             // Whenever there are new store data, this update the markers
             this.renderMultipleMarkers(nextProps.stores)
         }
+    }
+
+    clearMarkers(markers) {
+        markers.forEach((marker) => {
+            marker.remove();
+        });
+        
+        this.setState({
+            markers: []
+        });
     }
 
     initializeMap() {
@@ -76,8 +96,17 @@ class Map extends Component {
         });
     }
 
-    renderNavigationIcon() {
-        // TODO: add custom navigation control
+    getUserCoordinates() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords;
+
+            this.props.updateUserLocation([longitude, latitude]);
+        }, (err) => {
+            return console.error('Get user location error:', err);
+        },
+        {
+            enableHighAccuracy: true
+        });
     }
 
     updateBound() {
@@ -89,15 +118,20 @@ class Map extends Component {
     }
 
     renderMultipleMarkers(stores) {
+        const markers = [];
         stores.forEach((store) => {
-            const { lat, long, id, marker } = store;
+            const { lat, long } = store;
             // TODO: should render different marker image based on marker type
-            this.drawMarker(MJPIN, [long, lat], id);
+            const marker = this.drawMarker(MJPIN, [long, lat], store);
+            markers.push(marker);
         });
 
+        this.setState({
+            markers
+        });
     }
 
-    drawMarker(image, coord, id) {
+    drawMarker(image, coord, store) {
         
         const el = document.createElement('img');
         const self = this;
@@ -106,26 +140,35 @@ class Map extends Component {
         el.style.width = '50px';
         el.style.height = '62px';
         el.addEventListener('click', function () {
-            self.onMarkerClick(id, coord);
+            self.onMarkerClick(store, coord);
         });
 
         const marker = new mapboxgl.Marker(el)
             .setLngLat(coord)
             .addTo(this.map);
+
+        return marker;
     }
 
-    onMarkerClick(id, coord) {
-        this.map.flyTo({center: coord});
+    onMarkerClick(store, coord) {
+        this.props.selectStore(store);
+        this.props.infoTrayStatusChange(true);
+        this.props.infoTrayHeightChange(210);
+        this.props.trayStatusChange(false);
     }
 
     zoomToStore(coord) {
         this.map.flyTo({ center: coord, zoom: 18 });
     }
 
+    zoomOut() {
+        this.map.setZoom(15);
+    }
+
     getUserLocation() {
         // Get user's location programtically
         this.geolocate._onClickGeolocate.bind(this.geolocate);
-        // this.geolocateTimeout = setTimeout(geolocate._onClickGeolocate.bind(geolocate), 5);
+        this.getUserCoordinates();
     }
 
     render() {
