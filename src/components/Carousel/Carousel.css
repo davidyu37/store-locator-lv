@@ -1,7 +1,7 @@
 .carousel-container {
   position: relative;
-  height: 150px;
-  max-width: 960px;
+  height: 110px;
+  /* max-width: 960px; */
   margin: 0 auto;
   overflow: hidden;
   touch-action: pan-y;
@@ -25,9 +25,9 @@
 
 .carousel-card-inner {
   flex-direction: column;
-  width: 150px;
-  height: 150px;
-  border-radius: 5px;
+  width: 125px;
+  height: 120px;
+  /* border-radius: 5px; */
 }
 
 .carousel-image-container {
@@ -35,21 +35,15 @@
 }
 
 .carousel-image {
-  width: 150px;
-  height: 100px;
+  width: 125px;
+  height: 75px;
 }
 
 .carousel-title {
-  /* font-size: 1.2em;
-  line-height: 1.5em; */
-  font-size: 18px;
-  line-height: 20px;
-}
-
-.carousel-text {
-  padding: 1em;
+  font-family: 'EngraversGothicBold';
+  font-weight: bold;
   font-size: 14px;
-  white-space: pre-wrap;
-  text-align: left;
-  font-family: sans-serif;
+  line-height: 13px;
+  letter-spacing: 1.8px;
+  padding-top: 5px;
 }

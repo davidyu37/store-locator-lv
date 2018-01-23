@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
+import Blah from 'react-swipeable-views';
+
+
 import './Tray.css';
 
 import TabHandle from './TabHandle/TabHandle';
@@ -21,6 +24,9 @@ export default class Tray extends Component {
     }
     this.trayChange = this.trayChange.bind(this);
     this.toggleTray = this.toggleTray.bind(this);
+
+    this.dragging = false;
+    this.transform = 0;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,29 +42,56 @@ export default class Tray extends Component {
   }
 
   trayChange(e) {
-    console.log(e);
-    this.setState({ isTrayOpen: e });
+    this.props.trayStatusChange(e);
   }
 
   toggleTray() {
-    this.setState({ isTrayOpen: !this.state.isTrayOpen })
+    this.props.trayStatusChange(!this.state.isTrayOpen);
   }
+
+  getTransform(num) {
+    console.log(num);
+    if (num === this.transform) {
+      return;
+    }
+    if (num === 0 && !this.dragging && this.state.isTrayOpen) {
+      return;
+    }
+    this.transform = num;
+    this.props.getTransformMap(num);
+  }
+
+  isDragging(is) {
+    if (JSON.stringify(this.dragging) === JSON.stringify(is)) {
+      // console.log('same same');
+      return;
+    }
+    this.dragging = is;
+    // console.log('not same');
+    this.props.isDragging(is);
+    // console.log(is);
+  }
+
 
   render() {
     return (
       <div className="tray">
         <SwipeableBottomSheet
-          overflowHeight={180}
+          overflowHeight={150}
           overlay={false}
           topShadow={false}
           shadowTip={false}
           open={this.state.isTrayOpen}
           onChange={this.trayChange}
+          swipeableViewsProps={{ 
+            gettransform: (num => this.getTransform(num)),
+            dragging: (is => this.isDragging(is)),
+            animateTransitions: true,
+            springConfig: { duration: '0.5s', easeFunction: 'ease', delay: '0s' },
+          }}
         >
           <div className="tray-container">
-            {/* <div onClick={() => this.toggleTray()}> */}
              <TabHandle isTrayOpen={this.state.isTrayOpen} toggleTray={this.toggleTray} />
-            {/* </div> */}
             {/* <SearchBar /> */}
             <Carousel
               stores={this.props.stores}
@@ -66,6 +99,7 @@ export default class Tray extends Component {
               infoTrayStatusChange={this.props.infoTrayStatusChange}
               infoTrayHeightChange={this.props.infoTrayHeightChange}
               trayStatusChange={this.props.trayStatusChange}
+              isDragging={this.props.isDragging}
             />
             <Nearby
               stores={this.props.stores}

@@ -11,7 +11,7 @@ const query = window.location.search.slice(1);
 const enableLoop = /\bloop\b/.test(query);
 const enableAutoplay = /\bautoplay\b/.test(query);
 
-const cardSize = 130;
+const cardSize = 145;
 const cardPadCount = 1;
 const carouselWidth = clamp(window.innerWidth, 0, 960);
 
@@ -89,7 +89,7 @@ export default class Carousel extends Component {
   onStoreClick(item) {
     this.props.selectStore(item);
     this.props.infoTrayStatusChange(true);
-    this.props.infoTrayHeightChange(210);
+    this.props.infoTrayHeightChange(200);
     this.props.trayStatusChange(false);
   }
 

@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 
 import './Nearby.css';
-import winwood from '../../../images/wynwood.png';
+import winwood from '../../../assets/images/wynwood.png';
 
 
 const nearbyItems = [

@@ -6,27 +6,29 @@ import './Home.css';
 
 import tDistance from '@turf/distance';
 
-import dummyData from '../../stores.json';
+import dummyStores from '../../assets//data/stores.json';
+import dummyPoi from '../../assets//data/poi.json';
 import { translate } from 'react-i18next';
 
 //Entry point of the app
 class Home extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             markers: [],
             selectedStore: null,
             bound: null,
             // TODO: should be fetched through API
             // stores change by distance and map bound
-            stores: dummyData,
+            stores: dummyStores.concat(dummyPoi),
             // cachedStores are the original data
-            cachedStores: dummyData,
+            cachedStores: dummyStores.concat(dummyPoi),
             isTrayOpen: false,
             isInfoTrayOpen: false,
             infoTrayHeight: 0,
-            userLocation: null
+            userLocation: null,
+            transformMap: 0,
+            dragging: false,
         }
 
         //Tray related
@@ -38,6 +40,9 @@ class Home extends Component {
         //Map related
         this.onBoundChange = this.onBoundChange.bind(this);
         this.updateUserLocation = this.updateUserLocation.bind(this);
+
+        this.getTransformMap = this.getTransformMap.bind(this);
+        this.isDragging = this.isDragging.bind(this);
     }
 
     componentDidMount() {
@@ -148,11 +153,22 @@ class Home extends Component {
     }
 
     infoTrayHeightChange(height) {
-      console.log('got the change', height);
       this.setState({ infoTrayHeight: height });
       if (height === 0) {
         this.child.zoomOut();
       }
+    }
+
+    getTransformMap(num) {
+      if (this.state.transformMap !== num) {
+        this.setState({ transformMap: num });
+      }
+      // console.log(num);
+    }
+
+    isDragging(is) {
+      this.setState({ dragging: is });
+      console.log(is);
     }
 
     render() {
@@ -172,7 +188,10 @@ class Home extends Component {
             updateUserLocation={this.updateUserLocation}
             infoTrayStatusChange={this.infoTrayStatusChange}
             infoTrayHeightChange={this.infoTrayHeightChange}
-            trayStatusChange={this.trayStatusChange}/>
+            trayStatusChange={this.trayStatusChange}
+            transformMap={this.state.transformMap}
+            dragging={this.state.dragging}
+            />
             <Tray
             stores={stores}
             selectedStore={this.state.selectedStore}
@@ -181,6 +200,8 @@ class Home extends Component {
             infoTrayHeightChange={this.infoTrayHeightChange}
             trayStatusChange={this.trayStatusChange}
             isTrayOpen={this.state.isTrayOpen}
+            getTransformMap={this.getTransformMap}
+            isDragging={this.isDragging}
             />
             <InfoTray
             stores={stores}
@@ -191,6 +212,8 @@ class Home extends Component {
             infoTrayStatusChange={this.infoTrayStatusChange}
             infoTrayHeightChange={this.infoTrayHeightChange}
             trayStatusChange={this.trayStatusChange}
+            getTransformMap={this.getTransformMap}
+            isDragging={this.isDragging}
             />
         </div>
         );

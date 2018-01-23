@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 
 
 import './TabHandle.css';
-import tabHandleUp from '../../../images/tab-handle-up.png';
-import tabHandleDown from '../../../images/tab-handle-down.png';
+
+import tabHandleUp from '../../../images/icons/handle-up.svg';
+import tabHandleDown from '../../../images/icons/handle-down.svg';
+
 
 
 export default class TabHandle extends Component {

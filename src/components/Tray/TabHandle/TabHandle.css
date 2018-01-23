@@ -1,10 +1,15 @@
 .tab-handle-container {
-    height: 30px;
+    margin-top: 8px;
+    height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .tab-handle-image {
-    height: 10px;
+    width: 41px;
+	height: 8px;
+	object-fit: contain;
+	border-radius: 3px;
+	/* background-color: #d8d8d8; */
 }

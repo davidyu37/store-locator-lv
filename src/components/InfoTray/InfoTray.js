@@ -4,10 +4,15 @@ import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
 import './InfoTray.css';
 
-import iconClose from '../../images/iconClose.png';
-import uberIcon from '../../images/uber.png';
-import walkIcon from '../../images/walk.png';
-import directionsIcon from '../../images/directions.png';
+import iconClose from '../../images/icons/icon-close.svg';
+import uberIcon from '../../images/icons/icon-uber.svg';
+import walkIcon from '../../images/icons/icon-walk.svg';
+import directionsIcon from '../../images/icons/icon-directions.svg';
+
+import phoneIcon from '../../images/icons/icon-telephone.svg';
+import emailIcon from '../../images/icons/icon-email.svg';
+import shareIcon from '../../images/icons/icon-share.svg';
+
 
 import InfoTabHandle from './InfoTabHandle/InfoTabHandle';
 import SearchBar from '../SearchBar/SearchBar';
@@ -27,6 +32,9 @@ export default class Tray extends Component {
     }
     this.trayChange = this.trayChange.bind(this);
     this.toggleTray = this.toggleTray.bind(this);
+
+    this.dragging = false;
+    this.transform = 0;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,6 +68,26 @@ export default class Tray extends Component {
     // this.props.isInfoTrayOpen(false);
   }
 
+  getTransform(num) {
+    if (num === this.transform) {
+      return;
+    }
+    this.transform = num;
+    console.log(num)
+    this.props.getTransformMap(num);
+  }
+
+  isDragging(is) {
+    if (JSON.stringify(this.dragging) === JSON.stringify(is)) {
+      // console.log('same same');
+      return;
+    }
+    this.dragging = is;
+    // console.log('not same');
+    this.props.isDragging(is);
+    // console.log(is);
+  }
+
   render() {
     // console.log(this.state)
     return (
@@ -71,6 +99,12 @@ export default class Tray extends Component {
           shadowTip={false}
           open={this.state.isInfoTrayOpen}
           onChange={this.trayChange}
+          swipeableViewsProps={{ 
+            gettransform: (num => this.getTransform(num)),
+            dragging: (is => this.isDragging(is)),
+            animateTransitions: true,
+            springConfig: { duration: '0.5s', easeFunction: 'ease', delay: '0s' },
+          }}
         >
           {this.props.selectedStore ? 
             <div className="info-tray-container">
@@ -104,6 +138,39 @@ export default class Tray extends Component {
                   <div className="info-tray-navigation-element">
                     <img src={directionsIcon} />
                     <span id="no-padding">Directions</span>
+                  </div>
+                </div>
+              </div>
+              <div className="info-tray-more-info-container"> 
+                <div className="info-tray-contacts-container">
+                  <div className="info-tray-contacts-element">
+                    <img src={phoneIcon} />
+                    <span>212-343-1490</span>
+                  </div>
+                  <div className="info-tray-contacts-element">
+                    <img src={emailIcon} />
+                    <span>Email</span>
+                  </div>
+                  <div className="info-tray-contacts-element">
+                    <img src={shareIcon} />
+                    <span id="no-padding">Share</span>
+                  </div>
+                </div>
+                <div className="info-tray-opening-hours-main-container">
+                  <div className="info-tray-opening-hours-header">OPENING HOURS</div>
+                  <div className="info-tray-opening-hours-container">
+                    <div className="info-tray-opening-hours-days">Mon - Sat</div>
+                    <div className="info-tray-opening-hours-days">11am - 7pm</div>
+                  </div>
+                  <div className="info-tray-opening-hours-container">
+                    <div className="info-tray-opening-hours-days">Sun</div>
+                    <div className="info-tray-opening-hours-days">12pm - 6pm</div>
+                  </div>
+                </div>
+                <div className="info-tray-store-info-container">
+                  <div className="info-tray-store-info-header">STORY INFO</div>
+                  <div className="info-tray-store-info-text">
+                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
                   </div>
                 </div>
               </div>

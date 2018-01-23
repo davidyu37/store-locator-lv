@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 import './Map.css';
-import MJPIN from '../../images/pins/Pin-MJ.png';
+import MJPIN from '../../assets/images/pins/Pin-MJ.png';
+import EATPIN from '../../assets/images/pins/Pin-Eats.png';
+import MUSICPIN from '../../assets/images/pins/Pin-Music.png';
+import SIGHTSPIN from '../../assets/images/pins/Pin-Sights.png';
+
 
 // Properties exposed outside of this component
 /*
@@ -16,10 +20,10 @@ class Map extends Component {
         super(props);
         this.state = {
             center: {
-                longitude: -73.9995625,
-                latitude: 40.725389
+                longitude: -74.01530431379776,
+                latitude: 40.70888200021085
             },
-            zoom: 15,
+            zoom: 11.5,
             markers: []
         }
         this.initializeMap = this.initializeMap.bind(this);
@@ -51,6 +55,16 @@ class Map extends Component {
             // Whenever there are new store data, this update the markers
             this.renderMultipleMarkers(nextProps.stores)
         }
+
+        if (nextProps.transformMap) {
+            // Whenever there are new store data, this update the markers
+
+        }
+        
+        if (nextProps.isDragging !== this.props.isDragging) {
+            // Whenever there are new store data, this update the markers
+            console.log(nextProps.isDragging);
+        }
     }
 
     clearMarkers(markers) {
@@ -64,14 +78,14 @@ class Map extends Component {
     }
 
     initializeMap() {
-        const { center } = this.state;
+        const { center, zoom } = this.state;
         // Initialize mapbox
         mapboxgl.accessToken = 'pk.eyJ1IjoiZGF2aWR5dTM3IiwiYSI6ImNqY2ZzMHBhZjJnZnEycWxsOThjd3UwMDcifQ.Ige72JF8lv9Sm2BfxH2KzA';
 
         this.map = new mapboxgl.Map({
             container: this.mapContainer,
             style: 'mapbox://styles/davidyu37/cjchb25zf74i72rqyryiiq1hf',
-            zoom: 15,
+            zoom: zoom,
             center: [center.longitude, center.latitude]
         });
 
@@ -94,12 +108,17 @@ class Map extends Component {
         this.map.on('dragend', (e) => {
             this.updateBound();
         });
+
+        this.map.on('click', (e) => {
+            const { lngLat } = e;
+            console.log('Click on map', lngLat);
+        })
     }
 
     getUserCoordinates() {
         navigator.geolocation.getCurrentPosition((position) => {
             const { latitude, longitude } = position.coords;
-
+  
             this.props.updateUserLocation([longitude, latitude]);
         }, (err) => {
             return console.error('Get user location error:', err);
@@ -120,10 +139,10 @@ class Map extends Component {
     renderMultipleMarkers(stores) {
         const markers = [];
         stores.forEach((store) => {
-            const { lat, long } = store;
-            // TODO: should render different marker image based on marker type
-            const marker = this.drawMarker(MJPIN, [long, lat], store);
-            markers.push(marker);
+            const { lat, long, marker } = store;
+            const markerImage = this.getImage(marker);
+            const newMarker = this.drawMarker(markerImage, [long, lat], store);
+            markers.push(newMarker);
         });
 
         this.setState({
@@ -131,14 +150,49 @@ class Map extends Component {
         });
     }
 
+    getImage(category) {
+        // store, restaurant, music, sight, mall
+
+        switch(category) {
+            case 'store':
+                return MJPIN;
+                break;
+            case 'restaurant':
+                return EATPIN;
+                break;
+            case 'sight':
+                return SIGHTSPIN;
+                break;
+            case 'music':
+                return MUSICPIN;
+                break;
+            // case 'mall':
+            //     return ;
+            //     break;
+            default:
+            console.log('no image found');
+            break;
+        }
+    }
+
     drawMarker(image, coord, store) {
-        
+        const { selectedStore } = this.props;
+
         const el = document.createElement('img');
         const self = this;
         el.className = 'marker';
         el.src = image;
-        el.style.width = '50px';
-        el.style.height = '62px';
+        el.id = store.id;
+
+        if(selectedStore && selectedStore.id === store.id) {
+            el.style.width = '52px';
+            el.style.height = '65px';
+            // el.style["box-shadow"] = "1px 2px 4px rgba(0, 0, 0, .5)";
+        } else {
+            el.style.width = '36px';
+            el.style.height = '45px';
+        }
+        
         el.addEventListener('click', function () {
             self.onMarkerClick(store, coord);
         });
@@ -151,18 +205,31 @@ class Map extends Component {
     }
 
     onMarkerClick(store, coord) {
+        
         this.props.selectStore(store);
         this.props.infoTrayStatusChange(true);
         this.props.infoTrayHeightChange(210);
         this.props.trayStatusChange(false);
+        
+        const { markers } = this.state;
+        markers.forEach((m) => {
+            const { _element } = m;
+            if(_element.id === store.id) {
+                _element.style.width = '52px';
+                _element.style.height = '65px';
+                // _element.style["box-shadow"] = "1px 2px 4px rgba(0, 0, 0, .5)";
+            }
+        })
+        
     }
 
     zoomToStore(coord) {
-        this.map.flyTo({ center: coord, zoom: 18 });
+        this.map.flyTo({ center: coord, zoom: 15 });
     }
 
     zoomOut() {
-        this.map.setZoom(15);
+        this.map.flyTo({zoom: 15});
+        // this.map.setZoom({ zoom: 15 });
     }
 
     getUserLocation() {
@@ -172,11 +239,22 @@ class Map extends Component {
     }
 
     render() {
-
+        let mapStyle = {
+          transform: `translate3d(0px, -${this.props.transformMap}px, 0px)`,
+          transition: '500ms'
+          }
+        if (this.props.dragging) {
+          mapStyle = {
+            transform: `translate3d(0px, -${this.props.transformMap}px, 0px)`,
+            transition: '00ms'
+          }
+        }
         return (
             <div
                 ref={el => this.mapContainer = el}
                 className="map-view"
+                
+                style={mapStyle}
             >
             </div>
         );

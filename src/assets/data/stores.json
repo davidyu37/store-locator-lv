@@ -70,6 +70,20 @@
         "long": "-74.014953"
     },
     {
+        "id": "6",
+        "url": "http://7482624f.ngrok.io/stores/6/",
+        "name": "BARNEYS",
+        "address": "660 Madison Avenue, New York City, NY 10065",
+        "openingHours": "9AM-7PM",
+        "email": "something@marcjacobs.com",
+        "faxNumber": "+1 212-965-4000",
+        "telephone": "+1 212-965-4000",
+        "image": "https://i.imgur.com/SDZiPEl.jpg",
+        "marker": "store",
+        "lat": "40.764719",
+        "long": "-73.971128"
+    },
+    {
         "id": "7",
         "url": "http://7482624f.ngrok.io/stores/7/",
         "name": "BLOOMINGDALE'S",

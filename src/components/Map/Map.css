@@ -16,7 +16,7 @@
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
     background-position: center;
-    background-image: url("../../images/map-controls/location-icon.png");
+    background-image: url("../../assets/images/map-controls/icon-location.svg");
     background-repeat: no-repeat;
 }
 
@@ -32,7 +32,7 @@
 
 /* Can change the look of active geolocate button here */
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active {
-    background-image: url("../../images/map-controls/location-icon.png");;
+    background-image: url("../../assets/images/map-controls/icon-location.svg");;
 }
 /* Customize Geolocate Control Ends */
 
@@ -40,6 +40,6 @@
 .map-view {
     z-index: 0;
     width: 100%;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 150px);
 }
 

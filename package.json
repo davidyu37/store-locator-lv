@@ -12,13 +12,14 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-i18next": "^7.3.1",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
-    "react-swipeable-bottom-sheet": "^1.1.1",
+    "react-swipeable-bottom-sheet": "mattermoran/react-swipeable-bottom-sheet",
     "react-touch-carousel": "^0.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "rm -rf build; react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

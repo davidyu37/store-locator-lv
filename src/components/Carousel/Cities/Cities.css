@@ -16,11 +16,14 @@
 
 .cities-carousel-card {
   margin: 5px;
+  margin-right: 10px;
   flex: 0 0 100px;
   height: 100%;
   display: flex;
   justify-content: center;
   font-weight: bold;
+  text-decoration: none;
+  color: black;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -38,14 +41,18 @@
 }
 
 .cities-carousel-image {
-  width: 90px;
-  height: 110px;
+  width: 95px;
+  height: 115px;
 }
 
 .cities-carousel-title {
   /* margin-left: 10px; */
-  font-size: 18px;
-  line-height: 18px;
+  font-family: 'EngraversGothicBold';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 13px;
+  letter-spacing: 1.8px;
+  padding-top: 5px;
 }
 
 .cities-carousel-text {
@@ -63,7 +70,10 @@
 
 .cities-header {
     font-family: 'EngraversGothicBT', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
+    /* font-weight: 300; */
     margin-left: 20px;
+    font-size: 14px;
+    line-height: 13px;
+    letter-spacing: 1.8px;
+    padding-top: 10px;
 }

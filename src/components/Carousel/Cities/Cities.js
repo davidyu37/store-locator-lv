@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import TouchCarousel, { clamp } from 'react-touch-carousel';
 import cx from 'classnames';
 
+import { Link } from 'react-router-dom';
 
 import './Cities.css';
-import ny from '../../../images/cities/ny.jpg';
-import dubai from '../../../images/cities/dubai.png';
-import shanghai from '../../../images/cities/shanghai.png';
-import miami from '../../../images/cities/miami.png';
-import paris from '../../../images/cities/paris.png';
-import london from '../../../images/cities/london.png';
+import ny from '../../../assets/images/cities/ny.jpg';
+import dubai from '../../../assets/images/cities/dubai.png';
+import shanghai from '../../../assets/images/cities/shanghai.png';
+import miami from '../../../assets/images/cities/miami.png';
+import paris from '../../../assets/images/cities/paris.png';
+import london from '../../../assets/images/cities/london.png';
 
 
 
@@ -41,7 +42,7 @@ const citiesItems = [
   },
 ]
 
-const cardSize = 90;
+const cardSize = 115;
 const cardPadCount = 1;
 const carouselWidth = clamp(window.innerWidth, 0, 960);
 
@@ -97,20 +98,16 @@ export default class Carousel extends Component {
   renderCard(index, modIndex) {
     const item = this.state.stores[modIndex]
     return (
-      <div
-        key={index}
-        className='cities-carousel-card'
-        // onClick={() => this.props.selectStore(item)}
-      >
-        <div
-          className='cities-carousel-card-inner'
-        >
-          <div className="cities-carousel-image-container">
-            <img className="cities-carousel-image" src={item.image} />
+      <Link to={`/city/${item.name}`} key={index} className='cities-carousel-card'>
+          <div
+            className='cities-carousel-card-inner'
+          >
+            <div className="cities-carousel-image-container">
+              <img className="cities-carousel-image" src={item.image} />
+            </div>
+            <div className='cities-carousel-title'>{item.name}</div>
           </div>
-          <div className='cities-carousel-title'>{item.name}</div>
-        </div>
-      </div>
+      </Link>
     )
   }
 

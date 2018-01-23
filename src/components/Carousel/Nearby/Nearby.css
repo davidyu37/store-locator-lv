@@ -1,6 +1,6 @@
 .nearby-carousel-container {
   position: relative;
-  height: 80px;
+  height: 60px;
   /* max-width: 960px; */
   margin: 0 auto;
   overflow: hidden;
@@ -29,7 +29,7 @@
   flex-direction: row;
   align-items: center;
   width: 200px;
-  height: 60px;
+  height: 40px;
   /* border-radius: 5px; */
 }
 
@@ -38,24 +38,27 @@
 }
 
 .nearby-carousel-image {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
 .nearby-carousel-title {
   margin-left: 10px;
-  font-size: 18px;
-  line-height: 18px;
+  font-family: 'EngraversGothicBold';
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 13px;
+  letter-spacing: 1.8px;
 }
 
-.nearby-carousel-text {
+/* .nearby-carousel-text {
   padding: 1em;
   font-size: 14px;
   white-space: pre-wrap;
   text-align: left;
   font-family: sans-serif;
-}
+} */
 
 
 .nearby-container {
@@ -64,7 +67,10 @@
 
 .nearby-header {
     font-family: 'EngraversGothicBT', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
+    /* font-weight: 300; */
     margin-left: 20px;
+    font-size: 14px;
+    line-height: 13px;
+    letter-spacing: 1.8px;
+    padding-top: 10px;
 }

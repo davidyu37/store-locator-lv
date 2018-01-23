@@ -5,7 +5,7 @@
 }
 
 .info-tray-container {
-    height: 500px;
+    height: 450px;
 }
 
 .info-tray-basic-container {
@@ -15,6 +15,7 @@
 
 .info-tray-header-container {
     padding: 0 20px;
+    padding-top: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,13 +25,14 @@
 }
 
 .info-tray-header-title {
-  font-size: 20px;
-  line-height: 22px;
+  font-size: 18px;
+  line-height: 13px;
+  letter-spacing: 2.2px;
 }
 
 .info-tray-close-button {
-  height: 22px;
-  width: 22px;
+  height: 20px;
+  width: 20px;
 }
 
 .info-tray-address-and-image-container {
@@ -42,10 +44,11 @@
 }
 
 .info-tray-address-container {
-  width: 150px;
-  font-size: 16px;
+  width: 120px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 20px;
+  color: #575757;
 }
 
 .info-tray-store-image-container {
@@ -53,14 +56,15 @@
 }
 
 .info-tray-store-image {
-  height: 70px;
-  width: 100px
+  height: 60px;
+  width: 85px
 }
 
 
 
 .info-tray-navigation-container {
   padding: 20px;
+  padding-bottom: 25px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -74,14 +78,108 @@
 
 .info-tray-navigation-element img {
   height: 20px;
-  width: 18px;
+  width: 20px;
 }
 
 .info-tray-navigation-element span {
   padding-left: 10px;
   padding-right: 30px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #575757;
 }
 
 #no-padding {
   padding-right: 0;
 }
+
+
+
+
+.info-tray-more-info-container {
+  /* border-bottom: 1px solid rgb(239,239,239); */
+  /* padding-bottom: 20px; */
+}
+
+
+.info-tray-contacts-container {
+  padding: 20px;
+  padding-top: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info-tray-contacts-element {
+  display: flex;
+  align-items: center;
+  flex-direction: 'row';
+}
+
+.info-tray-contacts-element img {
+  height: 20px;
+  width: 20px;
+}
+
+.info-tray-contacts-element span {
+  padding-left: 10px;
+  padding-right: 30px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #575757;
+}
+
+
+
+
+.info-tray-opening-hours-main-container {
+  padding: 10px 20px;
+}
+
+.info-tray-opening-hours-header {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.06;
+  font-family: 'EngraversGothicBold';
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.info-tray-opening-hours-container {
+  display: flex;
+  flex-direction: row;
+  font-size: 15px;
+	line-height: 1.33;
+	text-align: left;
+	color: #575757;
+}
+
+.info-tray-opening-hours-days {
+  width: 120px;
+}
+
+
+
+.info-tray-store-info-container {
+  padding: 10px 20px;
+}
+
+.info-tray-store-info-header {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.06;
+  font-family: 'EngraversGothicBold';
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.info-tray-store-info-text {
+  font-size: 15px;
+	line-height: 1.33;
+	text-align: left;
+	color: #575757;
+}
+

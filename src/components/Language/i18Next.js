@@ -11,28 +11,52 @@ import { reactI18nextModule } from 'react-i18next';
 
 
 i18n
-  .use(XHR)
+  // TODO: should be enabled once server is up
+  // .use(XHR)
   .use(LanguageDetector)
   .use(reactI18nextModule) // if not using I18nextProvider
   .init({
-    fallbackLng: 'en',
+    fallbackLng: 'en-us',
     debug: true,
     lowerCaseLng: true,
-    ns: ['translations'],
-    defaultNS: 'translations',
+    ns: ['stores'],
+    defaultNS: 'stores',
     interpolation: {
       escapeValue: false, // not needed for react!!
     },
     // Currently using static file in /public/locales
+    // TODO: should be enabled once server is up
     // backend: {
-    //   loadPath: 'http://localhost:3000/{{lng}}.json',
-    //   addPath: 'http://localhost:3000/{{lng}}',
-    //   parse: function (data) { console.log("DATA", data) },
+    //   loadPath: (lngs, namespaces) => {
+    //     const userLangauge = lngs[0];
+    //     let languageToRequest = 'en-us'
+    //     const namespace = namespaces[0];
+    //     const host = 'http://localhost:3000';
+
+    //     //TODO: to 
+    //     // Check if the language is supported, if not go to en-us
+    //     if (userLangauge === 'zh-cn' || userLangauge === 'zh-tw') {
+    //       languageToRequest = 'zh-hans'
+    //     }
+
+    //     const url = `${host}/${namespaces[0]}/?format=json&lang=${languageToRequest}`
+    //     return url;
+    //   },
+    //   // addPath: 'http://df5fffcd.ngrok.io/api/stores/?format=json&lang=zh-hans',
     //   init: {
-    //     mode: 'no-cors',
+    //     mode: 'cors',
     //     credentials: 'include',
     //     cache: 'default'
-    //   }
+    //   },
+    //   crossDomain: true,
+    //   // ajax: function (url, options, callback, data) {
+    //       //Use this if the built in ajax is not flexible enough 
+    //   //   console.log('ajax url', url)
+    //   //   console.log('options', options)
+    //   //   console.log('callback', callback);
+    //   //   console.log('data', data);
+    //   // },
+    //   // parse: function (data) { console.log("DATA", data) },
     // },
     // react i18next special options (optional)
     react: {

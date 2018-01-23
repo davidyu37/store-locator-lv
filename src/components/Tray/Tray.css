@@ -5,8 +5,8 @@
 }
 
 .tray-container {
-    height: 500px;
+    height: 450px;
     padding: 0;
-    font-weight: bold;
-    font-family: 'EngraversGothicBold';
+    /* font-weight: bold;
+    font-family: 'EngraversGothicBold'; */
 }

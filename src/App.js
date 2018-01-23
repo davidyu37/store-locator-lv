@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
+
+// Import screens from here
 import Home from './screens/Home/Home';
+import City from './screens/City/City';
+
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom';
 
 //Entry point of the app
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // Default to English
-      currentLanguage: 'en',
-      i18next: null
-    }
   }
 
   render() {
-    // Use React router in the future if needed
     return (
-      <Home/>
+      <Router>
+        <div>
+          <Route exact path="/" component={Home} />
+          <Route path="/city/:cityname" component={City} />
+        </div>
+      </Router>
     )
   }
 }
+
 
 export default App;

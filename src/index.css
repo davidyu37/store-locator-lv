@@ -1,17 +1,25 @@
 @font-face {
   font-family: 'EngraversGothicBold';
-  src: local('EngraversGothicBold'), url(./fonts/EngraversGothicBold.otf) format('opentype');
+  src: local('EngraversGothicBold'), url(./assets/fonts/EngraversGothicBold.otf) format('opentype');
 }
 
 @font-face {
   font-family: 'EngraversGothicBT';
-  src: local('EngraversGothicBT'), url(./fonts/EngraversGothicBT.otf) format('opentype');
+  src: local('EngraversGothicBT'), url(./assets/fonts/EngraversGothicBT.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'SFDisplay';
+  src: local('SanFranciscoDisplay-Regular'), url(./fonts/SanFranciscoDisplay-Regular.otf) format('opentype');
 }
 
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Helvetica', sans-serif;
+  font-family: 'SFDisplay', sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  color: '#575757';
   font-weight: 400;
 }
