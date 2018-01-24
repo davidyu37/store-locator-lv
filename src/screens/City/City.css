@@ -1,0 +1,108 @@
+.city-header-image {
+  text-align: center;
+  color: #ffffff;
+  padding: 39px 0;
+}
+
+.city-header-image h2, .city-header-image p {
+  margin: 0;
+  font-family: 'EngraversGothic';
+}
+
+.city-header-image p {
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.city-header-image h2 {
+  font-weight: bold;
+  font-size: 38px;
+  letter-spacing: 5px;
+  margin-top: 9px;
+}
+
+.city-copy {
+  padding: 20px;
+  border-bottom: 1px solid #efefef;
+}
+
+.city-copy p {
+  margin: 0;
+  color: #575757;
+}
+
+.city-content-title {
+  font-family: 'EngraversGothic';
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: 1.8px;
+  padding: 0 20px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.city-experience-container {
+  display: flex;
+  padding: 15px 20px;
+}
+
+.experience-image-container {
+  flex: 1;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.experience-text-container {
+  flex: 6;
+}
+
+.experience-logo {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.experience-title {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 0.93;
+  letter-spacing: 1.8px;
+  font-family: 'EngraversGothic'
+}
+
+.experience-type {
+  opacity: 0.6;
+	font-family: 'SFProDisplay';
+	font-size: 14px;
+	text-align: left;
+	color: #575757;
+}
+
+.experience-desc {
+  font-family: SFProDisplay;
+	font-size: 15px;
+	line-height: 1.33;
+	text-align: left;
+	color: #575757;
+}
+
+.experience-type-icon {
+  width: 17px;
+}
+
+.experience-icon-container {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background-color: #e13ca5;
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.experience-type-icon {
+  width: 10px;
+}

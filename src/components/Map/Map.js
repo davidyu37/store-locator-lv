@@ -29,6 +29,7 @@ class Map extends Component {
         this.initializeMap = this.initializeMap.bind(this);
         this.getUserCoordinates = this.getUserCoordinates.bind(this);
         this.clearMarkers = this.clearMarkers.bind(this);
+        this.shrinkMarker = this.shrinkMarker.bind(this);
     }
 
     componentDidMount() {
@@ -217,18 +218,30 @@ class Map extends Component {
             if(_element.id === store.id) {
                 _element.style.width = '52px';
                 _element.style.height = '65px';
-                // _element.style["box-shadow"] = "1px 2px 4px rgba(0, 0, 0, .5)";
             }
         })
         
     }
 
+    shrinkMarker(store) {
+        const { markers } = this.state;
+        markers.forEach((m) => {
+            const { _element } = m;
+            if (_element.id === store.id) {
+                _element.style.width = '36px';
+                _element.style.height = '45px';
+                return;
+            }
+            return;
+        })
+    }
+
     zoomToStore(coord) {
-        this.map.flyTo({ center: coord, zoom: 15 });
+        this.map.flyTo({ center: coord, zoom: 15, offset: [0, -110] });
     }
 
     zoomOut() {
-        this.map.flyTo({zoom: 15});
+        this.map.flyTo({zoom: 11.5});
         // this.map.setZoom({ zoom: 15 });
     }
 
@@ -241,14 +254,21 @@ class Map extends Component {
     render() {
         let mapStyle = {
           transform: `translate3d(0px, -${this.props.transformMap}px, 0px)`,
-          transition: '500ms'
+          transition: '300ms',
+          height: `calc(100vh)`
+          // height: '100%',
+          // marginBottom: '20%',
           }
         if (this.props.dragging) {
           mapStyle = {
             transform: `translate3d(0px, -${this.props.transformMap}px, 0px)`,
-            transition: '00ms'
+            transition: '0ms',
+            height: `calc(100vh)`
+            // height: '100%',
+            // marginBottom: '20%',
           }
         }
+        // console.log(mapStyle)
         return (
             <div
                 ref={el => this.mapContainer = el}

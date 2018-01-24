@@ -21,23 +21,51 @@ export default class Tray extends Component {
       isTrayOpen: this.props.isTrayOpen,
       selectedStore: this.props.selectedStore,
       stores: this.props.stores,
+      trayOverflowHeight: this.props.trayOverflowHeight,
     }
     this.trayChange = this.trayChange.bind(this);
     this.toggleTray = this.toggleTray.bind(this);
 
     this.dragging = false;
     this.transform = 0;
+
+    // this.overflowHeight = 150; 
+    this.transition = {
+      transition: '300ms'
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.stores !== this.state.stores) {
-      this.setState({ stores: nextProps.stores });
+      // this.setState({ stores: nextProps.stores });
+      // // if (this.state.selectedStore) {
+      //   this.transition = {
+      //     transition: '0ms'
+      //   }
+      //   setTimeout(() => this.transition = {
+      //     transition: '300ms'
+      //   }, 300)
+      // // }
     }
     if (nextProps.isTrayOpen !== this.state.isTrayOpen) {
       this.setState({ isTrayOpen: nextProps.isTrayOpen });
+      if (this.state.isTrayOpen) {
+        console.log('tray opened', this.state.isTrayOpen)
+        this.transition = {
+          transition: '0ms'
+        }
+        setTimeout(() => {
+          console.log('transition back', this.state.isTrayOpen)
+          this.transition = {
+           transition: '300ms'
+        }}, 300)
+      }
     }
     if (nextProps.selectedStore !== this.state.selectedStore) {
       this.setState({ selectedStore: nextProps.selectedStore });
+    }
+    if (nextProps.trayOverflowHeight !== this.state.trayOverflowHeight) {
+      this.setState({ trayOverflowHeight: nextProps.trayOverflowHeight });
     }
   }
 
@@ -77,7 +105,8 @@ export default class Tray extends Component {
     return (
       <div className="tray">
         <SwipeableBottomSheet
-          overflowHeight={150}
+          style={this.transition}
+          overflowHeight={this.state.trayOverflowHeight}
           overlay={false}
           topShadow={false}
           shadowTip={false}
@@ -87,7 +116,7 @@ export default class Tray extends Component {
             gettransform: (num => this.getTransform(num)),
             dragging: (is => this.isDragging(is)),
             animateTransitions: true,
-            springConfig: { duration: '0.5s', easeFunction: 'ease', delay: '0s' },
+            springConfig: { duration: '300ms', easeFunction: 'ease', delay: '0s' },
           }}
         >
           <div className="tray-container">

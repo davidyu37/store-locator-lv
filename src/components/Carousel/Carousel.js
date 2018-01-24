@@ -87,10 +87,14 @@ export default class Carousel extends Component {
   }
 
   onStoreClick(item) {
-    this.props.selectStore(item);
-    this.props.infoTrayStatusChange(true);
-    this.props.infoTrayHeightChange(200);
-    this.props.trayStatusChange(false);
+    if(this.props.selectStore) {
+      this.props.selectStore(item);
+      this.props.infoTrayStatusChange(true);
+      this.props.infoTrayHeightChange(200);
+      this.props.trayStatusChange(false);
+    }
+    // User coming from city page, direct them to map
+    console.log(item);
   }
 
 

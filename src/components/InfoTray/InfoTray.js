@@ -35,6 +35,13 @@ export default class Tray extends Component {
 
     this.dragging = false;
     this.transform = 0;
+
+    this.animationOnClose = true;
+
+    this.isOpen = false;
+    this.transition = {
+      transition: '300ms'
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -65,7 +72,28 @@ export default class Tray extends Component {
   hideTray() {
     this.props.infoTrayHeightChange(0)
     this.setState({ isInfoTrayOpen: false });
-    // this.props.isInfoTrayOpen(false);
+
+    if (this.state.isInfoTrayOpen) {
+      this.transition = {
+        transition: '0ms'
+      }
+      setTimeout(() => this.transition = {
+        transition: '300ms'
+      }, 300)
+    }
+
+    // // this.props.isInfoTrayOpen(false);
+    // if (this.state.isInfoTrayOpen) {
+    //   this.isOpen = false;
+    //   this.transition = {
+    //     transition: '0ms'
+    //   }
+    //   return;
+    // }
+    // this.isOpen = false;
+    // this.transition = {
+    //   transition: '300ms'
+    // }
   }
 
   getTransform(num) {
@@ -89,11 +117,11 @@ export default class Tray extends Component {
   }
 
   render() {
-    // console.log(this.state)
     return (
       <div className="info-tray">
         <SwipeableBottomSheet
           overflowHeight={this.state.height}
+          style={this.transition}
           overlay={false}
           topShadow={false}
           shadowTip={false}
@@ -103,7 +131,7 @@ export default class Tray extends Component {
             gettransform: (num => this.getTransform(num)),
             dragging: (is => this.isDragging(is)),
             animateTransitions: true,
-            springConfig: { duration: '0.5s', easeFunction: 'ease', delay: '0s' },
+            springConfig: { duration: '300ms', easeFunction: 'ease', delay: '0s' },
           }}
         >
           {this.props.selectedStore ? 
@@ -145,11 +173,11 @@ export default class Tray extends Component {
                 <div className="info-tray-contacts-container">
                   <div className="info-tray-contacts-element">
                     <img src={phoneIcon} />
-                    <span>212-343-1490</span>
+                    <span><a href="tel:212-343-1490">212-343-1490</a></span>
                   </div>
                   <div className="info-tray-contacts-element">
                     <img src={emailIcon} />
-                    <span>Email</span>
+                    <span><a href="mailto:marcjacobs@gmail.com">Email</a></span>
                   </div>
                   <div className="info-tray-contacts-element">
                     <img src={shareIcon} />
