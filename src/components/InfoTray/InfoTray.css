@@ -101,6 +101,8 @@
 .info-tray-more-info-container {
   /* border-bottom: 1px solid rgb(239,239,239); */
   /* padding-bottom: 20px; */
+  height: 240px;
+  overflow: scroll;
 }
 
 

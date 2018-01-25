@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 
 import './TabHandle.css';
 
-import tabHandleUp from '../../../images/icons/handle-up.svg';
-import tabHandleDown from '../../../images/icons/handle-down.svg';
+import tabHandleUp from '../../../assets/images/icons/handle-up.svg';
+import tabHandleDown from '../../../assets/images/icons/handle-down.svg';
 
 
 

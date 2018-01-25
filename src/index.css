@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: 'SFDisplay';
-  src: local('SanFranciscoDisplay-Regular'), url(./fonts/SanFranciscoDisplay-Regular.otf) format('opentype');
+  src: local('SanFranciscoDisplay-Regular'), url(./assets/fonts/SanFranciscoDisplay-Regular.otf) format('opentype');
 }
 
 

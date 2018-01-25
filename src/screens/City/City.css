@@ -6,7 +6,7 @@
 
 .city-header-image h2, .city-header-image p {
   margin: 0;
-  font-family: 'EngraversGothic';
+  font-family: 'EngraversGothicBold';
 }
 
 .city-header-image p {
@@ -15,7 +15,6 @@
 }
 
 .city-header-image h2 {
-  font-weight: bold;
   font-size: 38px;
   letter-spacing: 5px;
   margin-top: 9px;
@@ -32,7 +31,7 @@
 }
 
 .city-content-title {
-  font-family: 'EngraversGothic';
+  font-family: 'EngraversGothicBT';
   font-size: 14px;
   color: #000000;
   letter-spacing: 1.8px;
@@ -67,12 +66,12 @@
   font-weight: bold;
   line-height: 0.93;
   letter-spacing: 1.8px;
-  font-family: 'EngraversGothic'
+  font-family: 'EngraversGothicBold'
 }
 
 .experience-type {
   opacity: 0.6;
-	font-family: 'SFProDisplay';
+	font-family: 'SFDisplay';
 	font-size: 14px;
 	text-align: left;
 	color: #575757;

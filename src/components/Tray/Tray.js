@@ -50,12 +50,12 @@ export default class Tray extends Component {
     if (nextProps.isTrayOpen !== this.state.isTrayOpen) {
       this.setState({ isTrayOpen: nextProps.isTrayOpen });
       if (this.state.isTrayOpen) {
-        console.log('tray opened', this.state.isTrayOpen)
+        // console.log('tray opened', this.state.isTrayOpen)
         this.transition = {
           transition: '0ms'
         }
         setTimeout(() => {
-          console.log('transition back', this.state.isTrayOpen)
+          // console.log('transition back', this.state.isTrayOpen)
           this.transition = {
            transition: '300ms'
         }}, 300)
@@ -78,7 +78,7 @@ export default class Tray extends Component {
   }
 
   getTransform(num) {
-    console.log(num);
+    // console.log(num);
     if (num === this.transform) {
       return;
     }

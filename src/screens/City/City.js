@@ -6,7 +6,7 @@ import Carousel from '../../components/Carousel/Carousel';
 import dummyStores from '../../assets//data/stores.json';
 import dummyPoi from '../../assets//data/poi.json';
 import { translate } from 'react-i18next';
-import NYPIC from '../../assets/images/cities/ny-sample.jpeg';
+import NYPIC from '../../assets/images/cities/new-york.jpg';
 import WINWOOD from '../../assets/images/wynwood.png';
 import EATPIN from '../../assets/images/pins/pin-icon-restaurant.svg';
 
@@ -16,7 +16,7 @@ class City extends Component {
   constructor(props) {
     super(props);
     const { cityname } = this.props.match.params;
-
+    
     this.state = {
       stores: dummyStores
     }
@@ -34,7 +34,7 @@ class City extends Component {
             background: `linear-gradient(
             rgba(0, 0, 0, 0.3), 
             rgba(0, 0, 0, 0.3)
-            ), url(${NYPIC})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+            ), url(${NYPIC})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover'}}>
             <p>EXPERIENCE</p>
             <h2>NEW YORK</h2>
           </div>
@@ -45,7 +45,7 @@ class City extends Component {
           </div>
         </header>
         <h1 className="city-content-title">MARC JACOBS IN NEW YORK</h1>
-        <Carousel stores={stores}/>
+        <Carousel stores={stores} {...this.props}/>
         <p className="city-content-title">EXPERIENCE IN NEW YORK</p>
         <div className="city-experience-container">
             <div className="experience-image-container">
@@ -59,6 +59,19 @@ class City extends Component {
               <div className="experience-type">Restaurant & Bars</div>
               <div className="experience-desc">Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</div>
             </div>
+        </div>
+        <div className="city-experience-container">
+          <div className="experience-image-container">
+            <img className="experience-logo" alt="Experience Logo" src={WINWOOD} />
+            <div className="experience-icon-container">
+              <img className="experience-type-icon" alt="Experience Category" src={EATPIN} />
+            </div>
+          </div>
+          <div className="experience-text-container">
+            <div className="experience-title">WYNWOOD KITCHEN & BAR</div>
+            <div className="experience-type">Restaurant & Bars</div>
+            <div className="experience-desc">Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</div>
+          </div>
         </div>
       </div>
     );

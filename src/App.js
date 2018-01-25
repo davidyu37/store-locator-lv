@@ -11,16 +11,13 @@ import {
 
 //Entry point of the app
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Router>
         <div>
           <Route exact path="/" component={Home} />
           <Route path="/city/:cityname" component={City} />
+          <Route path="/store/:store_id" component={Home} />
         </div>
       </Router>
     )

@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
+import IsolatedScroll from 'react-isolated-scroll';
+
+import ReactPullToRefresh from 'react-pull-to-refresh';
+
 import './InfoTray.css';
 
-import iconClose from '../../images/icons/icon-close.svg';
-import uberIcon from '../../images/icons/icon-uber.svg';
-import walkIcon from '../../images/icons/icon-walk.svg';
-import directionsIcon from '../../images/icons/icon-directions.svg';
+import iconClose from '../../assets/images/icons/icon-close.svg';
+import uberIcon from '../../assets/images/icons/icon-uber.svg';
+import walkIcon from '../../assets/images/icons/icon-walk.svg';
+import directionsIcon from '../../assets/images/icons/icon-directions.svg';
 
-import phoneIcon from '../../images/icons/icon-telephone.svg';
-import emailIcon from '../../images/icons/icon-email.svg';
-import shareIcon from '../../images/icons/icon-share.svg';
+import phoneIcon from '../../assets/images/icons/icon-telephone.svg';
+import emailIcon from '../../assets/images/icons/icon-email.svg';
+import shareIcon from '../../assets/images/icons/icon-share.svg';
 
 
 import InfoTabHandle from './InfoTabHandle/InfoTabHandle';
@@ -81,19 +87,6 @@ export default class Tray extends Component {
         transition: '300ms'
       }, 300)
     }
-
-    // // this.props.isInfoTrayOpen(false);
-    // if (this.state.isInfoTrayOpen) {
-    //   this.isOpen = false;
-    //   this.transition = {
-    //     transition: '0ms'
-    //   }
-    //   return;
-    // }
-    // this.isOpen = false;
-    // this.transition = {
-    //   transition: '300ms'
-    // }
   }
 
   getTransform(num) {
@@ -127,11 +120,13 @@ export default class Tray extends Component {
           shadowTip={false}
           open={this.state.isInfoTrayOpen}
           onChange={this.trayChange}
+          scrollTopAtClose={false}
           swipeableViewsProps={{ 
             gettransform: (num => this.getTransform(num)),
             dragging: (is => this.isDragging(is)),
             animateTransitions: true,
             springConfig: { duration: '300ms', easeFunction: 'ease', delay: '0s' },
+            // resistance: true
           }}
         >
           {this.props.selectedStore ? 
@@ -169,39 +164,59 @@ export default class Tray extends Component {
                   </div>
                 </div>
               </div>
-              <div className="info-tray-more-info-container"> 
-                <div className="info-tray-contacts-container">
-                  <div className="info-tray-contacts-element">
-                    <img src={phoneIcon} />
-                    <span><a href="tel:212-343-1490">212-343-1490</a></span>
+              {/* <ReactPullToRefresh
+                onRefresh={this.handleRefresh}
+                className="your-own-class-if-you-want"
+                style={{
+                  textAlign: 'center'
+                }}> */}
+                {/* <h3>Pull down to refresh</h3>
+                <div>{items}</div>
+                <div>etc.</div> */}
+             
+              {/* <Scrollbars
+                style={{ height: 240 }}
+                autoHight={true}
+                // universal={true}
+                > */}
+                <IsolatedScroll>
+                <div className="info-tray-more-info-container"> 
+                  <div className="info-tray-contacts-container">
+                    <div className="info-tray-contacts-element">
+                      <img src={phoneIcon} />
+                      <span><a href="tel:212-343-1490">212-343-1490</a></span>
+                    </div>
+                    <div className="info-tray-contacts-element">
+                      <img src={emailIcon} />
+                      <span><a href="mailto:marcjacobs@gmail.com">Email</a></span>
+                    </div>
+                    <div className="info-tray-contacts-element">
+                      <img src={shareIcon} />
+                      <span id="no-padding">Share</span>
+                    </div>
                   </div>
-                  <div className="info-tray-contacts-element">
-                    <img src={emailIcon} />
-                    <span><a href="mailto:marcjacobs@gmail.com">Email</a></span>
+                  <div className="info-tray-opening-hours-main-container">
+                    <div className="info-tray-opening-hours-header">OPENING HOURS</div>
+                    <div className="info-tray-opening-hours-container">
+                      <div className="info-tray-opening-hours-days">Mon - Sat</div>
+                      <div className="info-tray-opening-hours-days">11am - 7pm</div>
+                    </div>
+                    <div className="info-tray-opening-hours-container">
+                      <div className="info-tray-opening-hours-days">Sun</div>
+                      <div className="info-tray-opening-hours-days">12pm - 6pm</div>
+                    </div>
                   </div>
-                  <div className="info-tray-contacts-element">
-                    <img src={shareIcon} />
-                    <span id="no-padding">Share</span>
+                  <div className="info-tray-store-info-container">
+                    <div className="info-tray-store-info-header">STORY INFO</div>
+                    <div className="info-tray-store-info-text">
+                      Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
+                      Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
+                      Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
+                    </div>
                   </div>
                 </div>
-                <div className="info-tray-opening-hours-main-container">
-                  <div className="info-tray-opening-hours-header">OPENING HOURS</div>
-                  <div className="info-tray-opening-hours-container">
-                    <div className="info-tray-opening-hours-days">Mon - Sat</div>
-                    <div className="info-tray-opening-hours-days">11am - 7pm</div>
-                  </div>
-                  <div className="info-tray-opening-hours-container">
-                    <div className="info-tray-opening-hours-days">Sun</div>
-                    <div className="info-tray-opening-hours-days">12pm - 6pm</div>
-                  </div>
-                </div>
-                <div className="info-tray-store-info-container">
-                  <div className="info-tray-store-info-header">STORY INFO</div>
-                  <div className="info-tray-store-info-text">
-                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
-                  </div>
-                </div>
-              </div>
+              </IsolatedScroll>
+              {/* </Scrollbars> */}
             </div>
             : <div></div>
           }

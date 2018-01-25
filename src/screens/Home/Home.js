@@ -44,10 +44,18 @@ class Home extends Component {
 
         this.getTransformMap = this.getTransformMap.bind(this);
         this.isDragging = this.isDragging.bind(this);
+        this.goToLocation = this.goToLocation.bind(this);
     }
 
     componentDidMount() {
         // TODO: get store data from backend
+        const { state } = this.props.location;
+        const { params, path } = this.props.match;
+        if(state && path.startsWith('/store')) {
+            const { selectedLocation } = state;
+            // User comes from city page, go to this location
+            this.goToLocation(selectedLocation);
+        }
     }
 
     updateUserLocation(coord) {
@@ -56,6 +64,13 @@ class Home extends Component {
         });
         // Update the store data
         this.updateStoreData(coord);
+    }
+
+    goToLocation(store) {
+        this.selectStore(store);
+        this.infoTrayStatusChange(true);
+        this.infoTrayHeightChange(210);
+        this.trayStatusChange(false);
     }
 
     updateStoreData(coord) {
@@ -149,7 +164,7 @@ class Home extends Component {
     }
 
     infoTrayStatusChange(open) {
-      console.log('info tray', open);
+    //   console.log('info tray', open);
       this.setState({ isInfoTrayOpen: open });
     }
 
@@ -178,7 +193,7 @@ class Home extends Component {
 
     isDragging(is) {
       this.setState({ dragging: is });
-      console.log(is);
+    //   console.log(is);
     }
 
     render() {
@@ -190,42 +205,42 @@ class Home extends Component {
         return (
         <div className="container">
             <Map
-							onRef={ref => (this.child = ref)}
-							stores={stores}
-							selectedStore={this.state.selectedStore}
-							selectStore={this.selectStore}
-							onBoundChange={this.onBoundChange}
-							updateUserLocation={this.updateUserLocation}
-							infoTrayStatusChange={this.infoTrayStatusChange}
-							infoTrayHeightChange={this.infoTrayHeightChange}
-							trayStatusChange={this.trayStatusChange}
-							transformMap={this.state.transformMap}
-              dragging={this.state.dragging}
-              trayOverflowHeight={this.state.trayOverflowHeight}
+                onRef={ref => (this.child = ref)}
+                stores={stores}
+                selectedStore={this.state.selectedStore}
+                selectStore={this.selectStore}
+                onBoundChange={this.onBoundChange}
+                updateUserLocation={this.updateUserLocation}
+                infoTrayStatusChange={this.infoTrayStatusChange}
+                infoTrayHeightChange={this.infoTrayHeightChange}
+                trayStatusChange={this.trayStatusChange}
+                transformMap={this.state.transformMap}
+                dragging={this.state.dragging}
+                trayOverflowHeight={this.state.trayOverflowHeight}
             />
             <Tray
-							stores={stores}
-							selectedStore={this.state.selectedStore}
-							selectStore={this.selectStore}
-							infoTrayStatusChange={this.infoTrayStatusChange}
-							infoTrayHeightChange={this.infoTrayHeightChange}
-							trayStatusChange={this.trayStatusChange}
-							isTrayOpen={this.state.isTrayOpen}
-							getTransformMap={this.getTransformMap}
-              isDragging={this.isDragging}
-              trayOverflowHeight={this.state.trayOverflowHeight}
+                stores={stores}
+                selectedStore={this.state.selectedStore}
+                selectStore={this.selectStore}
+                infoTrayStatusChange={this.infoTrayStatusChange}
+                infoTrayHeightChange={this.infoTrayHeightChange}
+                trayStatusChange={this.trayStatusChange}
+                isTrayOpen={this.state.isTrayOpen}
+                getTransformMap={this.getTransformMap}
+                isDragging={this.isDragging}
+                trayOverflowHeight={this.state.trayOverflowHeight}
             />
             <InfoTray
-							stores={stores}
-							selectedStore={this.state.selectedStore}
-							selectStore={this.selectStore}
-							isInfoTrayOpen={this.state.isInfoTrayOpen}
-							infoTrayHeight={this.state.infoTrayHeight}
-							infoTrayStatusChange={this.infoTrayStatusChange}
-							infoTrayHeightChange={this.infoTrayHeightChange}
-							trayStatusChange={this.trayStatusChange}
-							getTransformMap={this.getTransformMap}
-							isDragging={this.isDragging}
+                stores={stores}
+                selectedStore={this.state.selectedStore}
+                selectStore={this.selectStore}
+                isInfoTrayOpen={this.state.isInfoTrayOpen}
+                infoTrayHeight={this.state.infoTrayHeight}
+                infoTrayStatusChange={this.infoTrayStatusChange}
+                infoTrayHeightChange={this.infoTrayHeightChange}
+                trayStatusChange={this.trayStatusChange}
+                getTransformMap={this.getTransformMap}
+                isDragging={this.isDragging}
             />
         </div>
         );

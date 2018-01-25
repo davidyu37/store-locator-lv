@@ -59,7 +59,6 @@ class Map extends Component {
 
         if (nextProps.transformMap) {
             // Whenever there are new store data, this update the markers
-
         }
         
         if (nextProps.isDragging !== this.props.isDragging) {
@@ -110,10 +109,10 @@ class Map extends Component {
             this.updateBound();
         });
 
-        this.map.on('click', (e) => {
-            const { lngLat } = e;
-            console.log('Click on map', lngLat);
-        })
+        // this.map.on('click', (e) => {
+        //     const { lngLat } = e;
+        //     console.log('Click on map', lngLat);
+        // })
     }
 
     getUserCoordinates() {
@@ -157,16 +156,12 @@ class Map extends Component {
         switch(category) {
             case 'store':
                 return MJPIN;
-                break;
             case 'restaurant':
                 return EATPIN;
-                break;
             case 'sight':
                 return SIGHTSPIN;
-                break;
             case 'music':
                 return MUSICPIN;
-                break;
             // case 'mall':
             //     return ;
             //     break;
@@ -179,26 +174,43 @@ class Map extends Component {
     drawMarker(image, coord, store) {
         const { selectedStore } = this.props;
 
+        const container = document.createElement('div');
         const el = document.createElement('img');
-        const self = this;
-        el.className = 'marker';
-        el.src = image;
-        el.id = store.id;
+        const shadow = document.createElement('div');
 
+        const self = this;
+        container.className = 'marker';
+        container.id = store.id;
+
+        shadow.className = 'shadow';
+
+
+        el.src = image;
+        
+        let offset;
         if(selectedStore && selectedStore.id === store.id) {
             el.style.width = '52px';
             el.style.height = '65px';
-            // el.style["box-shadow"] = "1px 2px 4px rgba(0, 0, 0, .5)";
+            shadow.style.display = 'block';
+            offset = 65 / 2;
         } else {
             el.style.width = '36px';
             el.style.height = '45px';
+            shadow.style.display = 'none';
+            offset = 45 / 2;
         }
+
+        container.appendChild(el);
+        container.appendChild(shadow);
+
         
         el.addEventListener('click', function () {
             self.onMarkerClick(store, coord);
         });
 
-        const marker = new mapboxgl.Marker(el)
+        const marker = new mapboxgl.Marker(container, {
+            offset: [ 0, -offset]
+        })
             .setLngLat(coord)
             .addTo(this.map);
 
@@ -214,8 +226,9 @@ class Map extends Component {
         
         const { markers } = this.state;
         markers.forEach((m) => {
-            const { _element } = m;
+            const { _element, _offset } = m;
             if(_element.id === store.id) {
+                _offset.y = -(65/2);
                 _element.style.width = '52px';
                 _element.style.height = '65px';
             }
@@ -256,19 +269,15 @@ class Map extends Component {
           transform: `translate3d(0px, -${this.props.transformMap}px, 0px)`,
           transition: '300ms',
           height: `calc(100vh)`
-          // height: '100%',
-          // marginBottom: '20%',
-          }
+        }
         if (this.props.dragging) {
           mapStyle = {
             transform: `translate3d(0px, -${this.props.transformMap}px, 0px)`,
             transition: '0ms',
             height: `calc(100vh)`
-            // height: '100%',
-            // marginBottom: '20%',
           }
         }
-        // console.log(mapStyle)
+
         return (
             <div
                 ref={el => this.mapContainer = el}
