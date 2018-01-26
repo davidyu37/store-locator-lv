@@ -20,8 +20,8 @@ class Map extends Component {
         super(props);
         this.state = {
             center: {
-                longitude: -74.01530431379776,
-                latitude: 40.70888200021085
+                longitude: -73.98872145388043,
+                latitude: 40.72663800497543
             },
             zoom: 11.5,
             markers: [],
@@ -72,7 +72,7 @@ class Map extends Component {
         
         if (nextProps.isDragging !== this.props.isDragging) {
             // Whenever there are new store data, this update the markers
-            console.log(nextProps.isDragging);
+            // console.log(nextProps.isDragging);
         }
     }
 
@@ -126,7 +126,8 @@ class Map extends Component {
         // Use this to get coordinates on map
         // this.map.on('click', (e) => {
         //     const { lngLat } = e;
-        //     console.log('Click on map', lngLat);
+        //     const center = this.map.getCenter();
+        //     console.log('Click on map', lngLat, center);
         // })
     }
 
@@ -233,7 +234,7 @@ class Map extends Component {
         }
         
         this.props.selectStore(store);
-        this.props.infoTrayStatusChange(true);
+        this.props.infoTrayStatusChange(false);
         this.props.infoTrayHeightChange(210);
         this.props.trayStatusChange(false);
 

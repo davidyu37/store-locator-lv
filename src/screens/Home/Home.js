@@ -69,11 +69,12 @@ class Home extends Component {
             userLocation: coord
         });
         // Update the store data
-        const storeData = this.updateStoreData(coord, 'store');
-
-        this.setState({
-            ...storeData,
-        })
+        // TODO: Check user permission for location
+        // const storeData = this.updateStoreData(coord, 'store');
+        
+        // this.setState({
+        //     ...storeData,
+        // })
     }
 
     goToLocation(store) {
@@ -85,7 +86,7 @@ class Home extends Component {
 
   updateStoreData(coord, dataType) {
     // update the store with distance relative to user
-    const { cachedStores, bound } = this.state;
+    const { cachedStores } = this.state;
     // TODO: use dataType to filter store/poi data
 
     const roundedCoord = [
@@ -100,27 +101,29 @@ class Home extends Component {
       return store;
     }).sort((a, b) => a.distance - b.distance);
 
-    if (bound) {
-      const filteredStores = this.filterStore(bound, sortedStore);
-      return {
-        stores: filteredStores,
-        cachedStores: sortedStore
-      }
-    } else {
+    // Not doing filtering
+    // if (bound) {
+    //   const filteredStores = this.filterStore(bound, sortedStore);
+    //   return {
+    //     stores: filteredStores,
+    //     cachedStores: sortedStore
+    //   }
+    // } else {
       return {
         stores: sortedStore,
         cachedStores: sortedStore
       }
-    }
+    // }
   }
 
   onBoundChange(bound) {
-    const { cachedStores } = this.state;
-    const stores = this.filterStore(bound, cachedStores);
-    this.setState({
-        bound,
-        stores
-    });
+    // If Bound logic is needed in the future, write it here
+    // const { cachedStores } = this.state;
+    // const stores = this.filterStore(bound, cachedStores);
+    // this.setState({
+    //     bound,
+    //     stores
+    // });
   }
 
   filterStore(bound, stores) {
