@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
 
-import TouchCarousel, { clamp } from 'react-touch-carousel';
+import TouchCarousel from 'react-touch-carousel';
 import cx from 'classnames';
-
 
 import './Carousel.css';
 
-
-const query = window.location.search.slice(1);
-const enableLoop = /\bloop\b/.test(query);
-const enableAutoplay = /\bautoplay\b/.test(query);
-
 const cardSize = 145;
-const cardPadCount = 1;
-const carouselWidth = clamp(window.innerWidth, 0, 960);
-
 
 export default class Carousel extends Component {
   constructor(props) {
@@ -22,8 +13,8 @@ export default class Carousel extends Component {
     this.state = {
       // stores: this.props.stores,
       selectedStore: this.props.selectedStore,
-      infoTrayHeightChange: this.props.infoTrayHeightChange,
-    }
+      // infoTrayHeightChange: this.props.infoTrayHeightChange,
+    };
     this.carouselContainer = this.carouselContainer.bind(this);
     this.renderCard = this.renderCard.bind(this);
     this.onStoreClick = this.onStoreClick.bind(this);
@@ -39,13 +30,24 @@ export default class Carousel extends Component {
   }
 
   carouselContainer(props) {
-    const { cursor, carouselState: { active, dragging }, ...rest } = props
+    const {
+      cursor,
+      carouselState: {
+        active, dragging,
+      },
+      ...rest
+    } = props;
 
-    const translateX = cursor * cardSize
+    const translateX = cursor * cardSize;
 
-    let current = -Math.round(cursor) % this.props.stores.length
+    // // if (translateX )
+    // if (-translateX < (this.props.stores.length - 2) * 145) {
+    //   translateX;
+    // }
+
+    let current = -Math.round(cursor) % this.props.stores.length;
     while (current < 0) {
-      current += this.props.stores.length
+      current += this.props.stores.length;
     }
     return (
       <div
@@ -53,50 +55,50 @@ export default class Carousel extends Component {
           'carousel-container',
           {
             'is-active': active,
-            'is-dragging': dragging
-          }
+            'is-dragging': dragging,
+          },
         )}
       >
         <div
-          className='carousel-track'
+          className="carousel-track"
           style={{ transform: `translate3d(${translateX}px, 0, 0)` }}
           {...rest}
         />
       </div>
-    )
-  };
+    );
+  }
 
   renderCard(index, modIndex) {
-    const item = this.props.stores[modIndex]
+    const item = this.props.stores[modIndex];
     return (
       <div
         key={index}
-        className='carousel-card'
+        className="carousel-card"
         onClick={() => this.onStoreClick(item)}
       >
         <div
-          className='carousel-card-inner'
+          className="carousel-card-inner"
         >
           <div className="carousel-image-container">
-            <img className="carousel-image" src={item.image} />
+            <img className="carousel-image" src={item.image} alt="" />
           </div>
-          <div className='carousel-title'>{item.name}</div>
+          <div className="carousel-title">{item.name}</div>
         </div>
       </div>
-    )
+    );
   }
 
   onStoreClick(item) {
-    if(this.props.selectStore) {
+    if (this.props.selectStore) {
       this.props.selectStore(item);
-      this.props.infoTrayStatusChange(true);
+      this.props.infoTrayStatusChange(false);
       this.props.infoTrayHeightChange(200);
       this.props.trayStatusChange(false);
       return;
     }
     // User coming from city page, direct them to map
     const { history } = this.props;
-    history.push(`/store/${item.id}`, {selectedLocation: item});
+    history.push(`/store/${item.id}`, { selectedLocation: item });
   }
 
 
@@ -108,9 +110,12 @@ export default class Carousel extends Component {
           cardCount={this.props.stores.length}
           cardSize={150}
           renderCard={this.renderCard}
+          // moveScale={3}
+          maxOverflow={0.1}
+          clickTolerance={5}
           loop={false}
         />
       </div>
-    )
+    );
   }
 }

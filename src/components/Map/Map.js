@@ -24,12 +24,14 @@ class Map extends Component {
                 latitude: 40.70888200021085
             },
             zoom: 11.5,
-            markers: []
+            markers: [],
+            selectedMarker: null
         }
         this.initializeMap = this.initializeMap.bind(this);
         this.getUserCoordinates = this.getUserCoordinates.bind(this);
-        this.clearMarkers = this.clearMarkers.bind(this);
+        // this.clearMarkers = this.clearMarkers.bind(this);
         this.shrinkMarker = this.shrinkMarker.bind(this);
+        this.enlargeMarker = this.enlargeMarker.bind(this);
     }
 
     componentDidMount() {
@@ -39,7 +41,14 @@ class Map extends Component {
         this.getUserCoordinates();
         
         this.initializeMap();
+        
+        let markers = [];
+        
+        if(this.props.stores[0]) {
+            markers = this.props.stores.concat(this.props.pois);
+        }
 
+        this.renderMultipleMarkers(markers);
     }
 
     componentWillUnmount() {
@@ -48,14 +57,14 @@ class Map extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.stores !== this.props.stores) {
-            const { markers } = this.state;
-            if(markers[0]) {
-                this.clearMarkers(markers);
-            }
-            // Whenever there are new store data, this update the markers
-            this.renderMultipleMarkers(nextProps.stores)
-        }
+        // if(nextProps.stores !== this.props.stores) {
+        //     const { markers } = this.state;
+        //     if(markers[0]) {
+        //         this.clearMarkers(markers);
+        //     }
+        //     // Whenever there are new store data, this update the markers
+        //     this.renderMultipleMarkers(nextProps.stores)
+        // }
 
         if (nextProps.transformMap) {
             // Whenever there are new store data, this update the markers
@@ -67,15 +76,15 @@ class Map extends Component {
         }
     }
 
-    clearMarkers(markers) {
-        markers.forEach((marker) => {
-            marker.remove();
-        });
+    // clearMarkers(markers) {
+    //     markers.forEach((marker) => {
+    //         marker.remove();
+    //     });
         
-        this.setState({
-            markers: []
-        });
-    }
+    //     this.setState({
+    //         markers: []
+    //     });
+    // }
 
     initializeMap() {
         const { center, zoom } = this.state;
@@ -104,11 +113,17 @@ class Map extends Component {
         this.map.on('zoomend', (e) => {
             this.updateBound();
         });
-        //Event types: dragstart, drag, dargend
+
+        //Event types: dragstart, drag, dargend, dragqueen. jk about the dragqueen
         this.map.on('dragend', (e) => {
             this.updateBound();
         });
 
+        this.map.on('dragstart', (e) => {
+            this.props.deselectStore();
+        });
+
+        // Use this to get coordinates on map
         // this.map.on('click', (e) => {
         //     const { lngLat } = e;
         //     console.log('Click on map', lngLat);
@@ -172,39 +187,34 @@ class Map extends Component {
     }
 
     drawMarker(image, coord, store) {
-        const { selectedStore } = this.props;
+        // const { selectedStore } = this.props;
 
         const container = document.createElement('div');
-        const el = document.createElement('img');
+        const markerImage = document.createElement('img');
         const shadow = document.createElement('div');
 
         const self = this;
+        const offset = 45 / 2;
+
         container.className = 'marker';
         container.id = store.id;
+        container.style.transition = 'width 300ms, height 300ms';
 
         shadow.className = 'shadow';
 
-
-        el.src = image;
+        markerImage.src = image;
         
-        let offset;
-        if(selectedStore && selectedStore.id === store.id) {
-            el.style.width = '52px';
-            el.style.height = '65px';
-            shadow.style.display = 'block';
-            offset = 65 / 2;
-        } else {
-            el.style.width = '36px';
-            el.style.height = '45px';
-            shadow.style.display = 'none';
-            offset = 45 / 2;
-        }
+        markerImage.style.width = '36px';
+        markerImage.style.height = '45px';
+        markerImage.style.transition = 'width 300ms, height 300ms';
+        shadow.style.display = 'none';
+        
 
-        container.appendChild(el);
+        container.appendChild(markerImage);
         container.appendChild(shadow);
 
         
-        el.addEventListener('click', function () {
+        markerImage.addEventListener('click', function () {
             self.onMarkerClick(store, coord);
         });
 
@@ -218,39 +228,71 @@ class Map extends Component {
     }
 
     onMarkerClick(store, coord) {
+        if(this.state.selectedMarker) {
+            this.shrinkMarker();
+        }
         
         this.props.selectStore(store);
         this.props.infoTrayStatusChange(true);
         this.props.infoTrayHeightChange(210);
         this.props.trayStatusChange(false);
-        
+
+
+        this.enlargeMarker(store);
+    }
+
+    enlargeMarker(store) {
         const { markers } = this.state;
+        
+        let selectedMarker;
+
         markers.forEach((m) => {
             const { _element, _offset } = m;
-            if(_element.id === store.id) {
-                _offset.y = -(65/2);
+            if (_element.id === store.id) {
+                // _offset make the it centers on the bottom of the pin
+                _offset.y = -(65 / 2);
+                //_element is the container of the marker
                 _element.style.width = '52px';
                 _element.style.height = '65px';
-            }
-        })
-        
-    }
-
-    shrinkMarker(store) {
-        const { markers } = this.state;
-        markers.forEach((m) => {
-            const { _element } = m;
-            if (_element.id === store.id) {
-                _element.style.width = '36px';
-                _element.style.height = '45px';
+                // children[0] is the image itself
+                _element.children[0].style.width = '52px';
+                _element.children[0].style.height = '65px';
+                // children[1] is the shadow
+                _element.children[1].style.display = 'block';
+                selectedMarker = m;
                 return;
             }
-            return;
-        })
+        });
+
+        this.setState({
+            selectedMarker
+        });
     }
 
-    zoomToStore(coord) {
-        this.map.flyTo({ center: coord, zoom: 15, offset: [0, -110] });
+    shrinkMarker() {
+        const { selectedMarker } = this.state;
+        if(selectedMarker) {
+            const { _element, _offset } = selectedMarker;
+
+            _offset.y = -(45 / 2);
+
+            _element.style.width = '36px';
+            _element.style.height = '45px';
+
+            _element.children[0].style.width = '36px';
+            _element.children[0].style.height = '45px';
+            _element.children[1].style.display = 'none';
+        }
+    }
+
+    zoomToStore(coord, animation) {
+        if(animation) {
+            this.map.flyTo({ center: coord, zoom: 15, offset: [0, -110] });
+            return
+        }
+        this.map.setCenter(coord)
+        this.map.panBy([0, 9], { animate: false });
+        this.map.setZoom(15);
     }
 
     zoomOut() {
@@ -259,6 +301,7 @@ class Map extends Component {
     }
 
     getUserLocation() {
+        this.shrinkMarker();
         // Get user's location programtically
         this.geolocate._onClickGeolocate.bind(this.geolocate);
         this.getUserCoordinates();

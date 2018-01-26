@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
-import { Scrollbars } from 'react-custom-scrollbars';
 
 import IsolatedScroll from 'react-isolated-scroll';
 
-import ReactPullToRefresh from 'react-pull-to-refresh';
 
 import './InfoTray.css';
 
@@ -21,21 +19,17 @@ import shareIcon from '../../assets/images/icons/icon-share.svg';
 
 
 import InfoTabHandle from './InfoTabHandle/InfoTabHandle';
-import SearchBar from '../SearchBar/SearchBar';
-import Carousel from '../Carousel/Carousel';
-import Nearby from '../Carousel/Nearby/Nearby';
-import Cities from '../Carousel/Cities/Cities';
 
 
 export default class Tray extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isInfoTrayOpen: false,
+      isInfoTrayOpen: this.props.isInfoTrayOpen,
       selectedStore: this.props.selectedStore,
       stores: this.props.stores,
       height: this.props.infoTrayHeight,
-    }
+    };
     this.trayChange = this.trayChange.bind(this);
     this.toggleTray = this.toggleTray.bind(this);
 
@@ -46,8 +40,8 @@ export default class Tray extends Component {
 
     this.isOpen = false;
     this.transition = {
-      transition: '300ms'
-    }
+      transition: '300ms',
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,34 +52,10 @@ export default class Tray extends Component {
       this.setState({ selectedStore: nextProps.selectedStore });
     }
     if (nextProps.infoTrayHeight !== this.state.height) {
-      // console.log('got something')
       this.setState({ height: nextProps.infoTrayHeight });
     }
-  }
-
-  trayChange(e) {
-    // console.log(e);
-    this.setState({ isInfoTrayOpen: e });
-    if (!e) {
-      this.props.infoTrayStatusChange(e);
-    }
-  }
-
-  toggleTray() {
-    this.setState({ isInfoTrayOpen: !this.state.isInfoTrayOpen })
-  }
-
-  hideTray() {
-    this.props.infoTrayHeightChange(0)
-    this.setState({ isInfoTrayOpen: false });
-
-    if (this.state.isInfoTrayOpen) {
-      this.transition = {
-        transition: '0ms'
-      }
-      setTimeout(() => this.transition = {
-        transition: '300ms'
-      }, 300)
+    if (nextProps.isInfoTrayOpen !== this.state.isInfoTrayOpen) {
+      this.setState({ isInfoTrayOpen: nextProps.isInfoTrayOpen });
     }
   }
 
@@ -94,19 +64,37 @@ export default class Tray extends Component {
       return;
     }
     this.transform = num;
-    console.log(num)
     this.props.getTransformMap(num);
   }
 
+  trayChange(e) {
+    this.props.infoTrayStatusChange(e);
+  }
+
+  toggleTray() {
+    this.props.infoTrayStatusChange(!this.state.isInfoTrayOpen);
+  }
+
+  hideTray() {
+    this.props.infoTrayHeightChange(0);
+    this.props.infoTrayStatusChange(false);
+
+    if (this.state.isInfoTrayOpen) {
+      this.transition = {
+        transition: '0ms',
+      };
+      setTimeout(() => this.transition = {
+        transition: '300ms',
+      }, 300);
+    }
+  }
+
   isDragging(is) {
-    if (JSON.stringify(this.dragging) === JSON.stringify(is)) {
-      // console.log('same same');
+    if (this.dragging === is) {
       return;
     }
     this.dragging = is;
-    // console.log('not same');
     this.props.isDragging(is);
-    // console.log(is);
   }
 
   render() {
@@ -121,77 +109,62 @@ export default class Tray extends Component {
           open={this.state.isInfoTrayOpen}
           onChange={this.trayChange}
           scrollTopAtClose={false}
-          swipeableViewsProps={{ 
-            gettransform: (num => this.getTransform(num)),
-            dragging: (is => this.isDragging(is)),
+          swipeableViewsProps={{
+            gettransform: num => this.getTransform(num),
+            dragging: is => this.isDragging(is),
             animateTransitions: true,
             springConfig: { duration: '300ms', easeFunction: 'ease', delay: '0s' },
             // resistance: true
           }}
         >
-          {this.props.selectedStore ? 
+          {this.props.selectedStore ?
             <div className="info-tray-container">
               <div className="info-tray-basic-container">
                 {/* <div onClick={() => this.toggleTray()}> */}
-                  <InfoTabHandle isInfoTrayOpen={this.state.isInfoTrayOpen} toggleTray={this.toggleTray} />
+                <InfoTabHandle isInfoTrayOpen={this.state.isInfoTrayOpen} toggleTray={this.toggleTray} />
                 {/* </div> */}
                 <div className="info-tray-header-container">
                   <div className="info-tray-header-title">{this.state.selectedStore.name}</div>
                   <div onClick={() => this.hideTray()} className="info-tray-close-button-container">
-                    <img className="info-tray-close-button" src={iconClose} />
+                    <img className="info-tray-close-button" src={iconClose} alt="" />
                   </div>
                 </div>
                 <div className="info-tray-address-and-image-container">
                   <div className="info-tray-address-container">
-                  {this.state.selectedStore.address}
+                    {this.state.selectedStore.address}
                   </div>
                   <div className="info-tray-store-image-container">
-                    <img className="info-tray-store-image" src={this.state.selectedStore.image} />
+                    <img className="info-tray-store-image" src={this.state.selectedStore.image} alt="" />
                   </div>
                 </div>
                 <div className="info-tray-navigation-container">
                   <div className="info-tray-navigation-element">
-                    <img src={uberIcon} />
+                    <img src={uberIcon} alt="" />
                     <span>22 min</span>
                   </div>
                   <div className="info-tray-navigation-element">
-                    <img src={walkIcon} />
+                    <img src={walkIcon} alt="" />
                     <span>12 min</span>
                   </div>
                   <div className="info-tray-navigation-element">
-                    <img src={directionsIcon} />
+                    <img src={directionsIcon} alt="" />
                     <span id="no-padding">Directions</span>
                   </div>
                 </div>
               </div>
-              {/* <ReactPullToRefresh
-                onRefresh={this.handleRefresh}
-                className="your-own-class-if-you-want"
-                style={{
-                  textAlign: 'center'
-                }}> */}
-                {/* <h3>Pull down to refresh</h3>
-                <div>{items}</div>
-                <div>etc.</div> */}
-             
-              {/* <Scrollbars
-                style={{ height: 240 }}
-                autoHight={true}
-                // universal={true}
-                > */}
-                <IsolatedScroll>
-                <div className="info-tray-more-info-container"> 
+              <IsolatedScroll>
+                <div className="info-tray-more-info-container">
                   <div className="info-tray-contacts-container">
                     <div className="info-tray-contacts-element">
-                      <img src={phoneIcon} />
+                      <img src={phoneIcon} alt="" />
                       <span><a href="tel:212-343-1490">212-343-1490</a></span>
                     </div>
                     <div className="info-tray-contacts-element">
-                      <img src={emailIcon} />
+                      <img src={emailIcon} alt="" />
                       <span><a href="mailto:marcjacobs@gmail.com">Email</a></span>
                     </div>
                     <div className="info-tray-contacts-element">
-                      <img src={shareIcon} />
+                      <img src={shareIcon} alt="" />
                       <span id="no-padding">Share</span>
                     </div>
                   </div>
@@ -216,9 +189,8 @@ export default class Tray extends Component {
                   </div>
                 </div>
               </IsolatedScroll>
-              {/* </Scrollbars> */}
             </div>
-            : <div></div>
+            : <div />
           }
         </SwipeableBottomSheet>
       </div>

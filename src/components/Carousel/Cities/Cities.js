@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import TouchCarousel, { clamp } from 'react-touch-carousel';
+import TouchCarousel from 'react-touch-carousel';
 import cx from 'classnames';
 
 import { Link } from 'react-router-dom';
@@ -14,37 +14,34 @@ import paris from '../../../assets/images/cities/paris.png';
 import london from '../../../assets/images/cities/london.png';
 
 
-
 const citiesItems = [
   {
-    name: "LONDON",
-    image: london
+    name: 'LONDON',
+    image: london,
   },
   {
-    name: "PARIS",
-    image: paris
+    name: 'PARIS',
+    image: paris,
   },
   {
-    name: "NEW YORK",
-    image: ny
+    name: 'NEW YORK',
+    image: ny,
   },
   {
-    name: "SHANGHAI",
-    image: shanghai
+    name: 'SHANGHAI',
+    image: shanghai,
   },
   {
-    name: "DUBAI",
-    image: dubai
+    name: 'DUBAI',
+    image: dubai,
   },
   {
-    name: "MIAMI",
-    image: miami
+    name: 'MIAMI',
+    image: miami,
   },
-]
+];
 
 const cardSize = 115;
-const cardPadCount = 1;
-const carouselWidth = clamp(window.innerWidth, 0, 960);
 
 
 export default class Carousel extends Component {
@@ -52,29 +49,29 @@ export default class Carousel extends Component {
     super(props);
     this.state = {
       stores: citiesItems,
-      selectedStore: this.props.selectedStore,
-    }
+      // selectedStore: this.props.selectedStore,
+    };
     this.carouselContainer = this.carouselContainer.bind(this);
     this.renderCard = this.renderCard.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.stores !== this.state.stores) {
-    //   this.setState({ stores: nextProps.stores });
-    // }
-    // if (nextProps.selectedStore !== this.state.selectedStore) {
-    //   this.setState({ selectedStore: nextProps.selectedStore });
-    // }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // if (nextProps.stores !== this.state.stores) {
+  //   //   this.setState({ stores: nextProps.stores });
+  //   // }
+  //   // if (nextProps.selectedStore !== this.state.selectedStore) {
+  //   //   this.setState({ selectedStore: nextProps.selectedStore });
+  //   // }
+  // }
 
   carouselContainer(props) {
-    const { cursor, carouselState: { active, dragging }, ...rest } = props
+    const { cursor, carouselState: { active, dragging }, ...rest } = props;
 
-    const translateX = cursor * cardSize
+    const translateX = cursor * cardSize;
 
-    let current = -Math.round(cursor) % this.state.stores.length
+    let current = -Math.round(cursor) % this.state.stores.length;
     while (current < 0) {
-      current += this.state.stores.length
+      current += this.state.stores.length;
     }
     return (
       <div
@@ -82,33 +79,33 @@ export default class Carousel extends Component {
           'cities-carousel-container',
           {
             'is-active': active,
-            'is-dragging': dragging
-          }
+            'is-dragging': dragging,
+          },
         )}
       >
         <div
-          className='cities-carousel-track'
+          className="cities-carousel-track"
           style={{ transform: `translate3d(${translateX}px, 0, 0)` }}
           {...rest}
         />
       </div>
-    )
-  };
+    );
+  }
 
   renderCard(index, modIndex) {
-    const item = this.state.stores[modIndex]
+    const item = this.state.stores[modIndex];
     return (
-      <Link to={`/city/${item.name}`} key={index} className='cities-carousel-card'>
-          <div
-            className='cities-carousel-card-inner'
-          >
-            <div className="cities-carousel-image-container">
-              <img className="cities-carousel-image" src={item.image} />
-            </div>
-            <div className='cities-carousel-title'>{item.name}</div>
+      <Link to={`/city/${item.name}`} key={index} className="cities-carousel-card">
+        <div
+          className="cities-carousel-card-inner"
+        >
+          <div className="cities-carousel-image-container">
+            <img className="cities-carousel-image" src={item.image} alt="" />
           </div>
+          <div className="cities-carousel-title">{item.name}</div>
+        </div>
       </Link>
-    )
+    );
   }
 
 
@@ -124,6 +121,6 @@ export default class Carousel extends Component {
           loop={false}
         />
       </div>
-    )
+    );
   }
 }

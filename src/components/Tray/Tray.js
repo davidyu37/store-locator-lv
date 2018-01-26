@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
-import Blah from 'react-swipeable-views';
-
 
 import './Tray.css';
 
 import TabHandle from './TabHandle/TabHandle';
-import SearchBar from '../SearchBar/SearchBar';
+// import SearchBar from '../SearchBar/SearchBar';
 import Carousel from '../Carousel/Carousel';
 import Nearby from '../Carousel/Nearby/Nearby';
 import Cities from '../Carousel/Cities/Cities';
@@ -22,17 +20,16 @@ export default class Tray extends Component {
       selectedStore: this.props.selectedStore,
       stores: this.props.stores,
       trayOverflowHeight: this.props.trayOverflowHeight,
-    }
+    };
     this.trayChange = this.trayChange.bind(this);
     this.toggleTray = this.toggleTray.bind(this);
 
     this.dragging = false;
     this.transform = 0;
 
-    // this.overflowHeight = 150; 
     this.transition = {
-      transition: '300ms'
-    }
+      transition: '300ms',
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,15 +47,14 @@ export default class Tray extends Component {
     if (nextProps.isTrayOpen !== this.state.isTrayOpen) {
       this.setState({ isTrayOpen: nextProps.isTrayOpen });
       if (this.state.isTrayOpen) {
-        // console.log('tray opened', this.state.isTrayOpen)
         this.transition = {
-          transition: '0ms'
-        }
+          transition: '0ms',
+        };
         setTimeout(() => {
-          // console.log('transition back', this.state.isTrayOpen)
           this.transition = {
-           transition: '300ms'
-        }}, 300)
+            transition: '300ms',
+          };
+        }, 300);
       }
     }
     if (nextProps.selectedStore !== this.state.selectedStore) {
@@ -67,14 +63,6 @@ export default class Tray extends Component {
     if (nextProps.trayOverflowHeight !== this.state.trayOverflowHeight) {
       this.setState({ trayOverflowHeight: nextProps.trayOverflowHeight });
     }
-  }
-
-  trayChange(e) {
-    this.props.trayStatusChange(e);
-  }
-
-  toggleTray() {
-    this.props.trayStatusChange(!this.state.isTrayOpen);
   }
 
   getTransform(num) {
@@ -89,15 +77,21 @@ export default class Tray extends Component {
     this.props.getTransformMap(num);
   }
 
+
+  trayChange(e) {
+    this.props.trayStatusChange(e);
+  }
+
+  toggleTray() {
+    this.props.trayStatusChange(!this.state.isTrayOpen);
+  }
+
   isDragging(is) {
-    if (JSON.stringify(this.dragging) === JSON.stringify(is)) {
-      // console.log('same same');
+    if (this.dragging === is) {
       return;
     }
     this.dragging = is;
-    // console.log('not same');
     this.props.isDragging(is);
-    // console.log(is);
   }
 
 
@@ -112,15 +106,15 @@ export default class Tray extends Component {
           shadowTip={false}
           open={this.state.isTrayOpen}
           onChange={this.trayChange}
-          swipeableViewsProps={{ 
-            gettransform: (num => this.getTransform(num)),
-            dragging: (is => this.isDragging(is)),
+          swipeableViewsProps={{
+            gettransform: num => this.getTransform(num),
+            dragging: is => this.isDragging(is),
             animateTransitions: true,
             springConfig: { duration: '300ms', easeFunction: 'ease', delay: '0s' },
           }}
         >
           <div className="tray-container">
-             <TabHandle isTrayOpen={this.state.isTrayOpen} toggleTray={this.toggleTray} />
+            <TabHandle isTrayOpen={this.state.isTrayOpen} toggleTray={this.toggleTray} />
             {/* <SearchBar /> */}
             <Carousel
               stores={this.props.stores}
