@@ -95,7 +95,7 @@ export default class Carousel extends Component {
   renderCard(index, modIndex) {
     const item = this.state.stores[modIndex];
     return (
-      <Link to={`/city/${item.name}`} key={index} className="cities-carousel-card">
+      <Link to={`/city/${item.name.replace(/ +/g, '')}`} key={index} className="cities-carousel-card">
         <div
           className="cities-carousel-card-inner"
         >
@@ -119,6 +119,9 @@ export default class Carousel extends Component {
           cardSize={90}
           renderCard={this.renderCard}
           loop={false}
+          moveScale={0.8}
+          // maxOverflow={0.1}
+          // clickTolerance={5}
         />
       </div>
     );

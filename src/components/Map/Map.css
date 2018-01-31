@@ -14,9 +14,10 @@
     box-shadow: none;
 }
 
-.mapboxgl-ctrl-bottom-left {
-    bottom: 150px;
-}
+/* Setting position with javascript */
+/* .mapboxgl-ctrl-bottom-left {
+    bottom: 210px;
+} */
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
     background-position: center;

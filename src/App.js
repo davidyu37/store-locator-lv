@@ -5,10 +5,11 @@ import {
   Route,
 } from 'react-router-dom';
 
-
 // Import screens from here
 import Home from './screens/Home/Home';
 import City from './screens/City/City';
+
+import QRCode from './components/QRCode/QRCode';
 
 
 // Entry point of the app
@@ -42,11 +43,13 @@ class App extends Component {
     return (
       // <div>
       // {this.state.orientation === 'portrait' ?
+      // <QRCode />
       <Router>
         <div>
           <Route exact path="/" component={Home} />
           <Route path="/city/:cityname" component={City} />
           <Route path="/store/:store_id" component={Home} />
+          <Route path="/poi/:poi_id" component={Home} />
         </div>
       </Router>
       // : <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px', lineHeight: '100px' }}>Only portrait available</div>

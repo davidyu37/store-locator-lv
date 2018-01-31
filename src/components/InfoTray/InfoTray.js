@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
-
-import IsolatedScroll from 'react-isolated-scroll';
-
+import SVG from 'react-inlinesvg';
 
 import './InfoTray.css';
 
@@ -32,6 +30,7 @@ export default class Tray extends Component {
     };
     this.trayChange = this.trayChange.bind(this);
     this.toggleTray = this.toggleTray.bind(this);
+    this.convertToHourMin = this.convertToHourMin.bind(this);
 
     this.dragging = false;
     this.transform = 0;
@@ -97,6 +96,23 @@ export default class Tray extends Component {
     this.props.isDragging(is);
   }
 
+  convertToHourMin = (hours) => {
+    let hour = 0;
+    let min = Math.round(hours * 60);
+    if (hours > 1) {
+      hour = Math.round(hours);
+      const minutesDec = (hours - hour) * 60;
+      min = Math.round(minutesDec);
+    }
+
+    if (hour > 10) {
+      return '> 10H';
+    } else if (hour > 0) {
+      return `${hour}H ${min}M`;
+    }
+    return `${min} MIN`;
+  }
+
   render() {
     return (
       <div className="info-tray">
@@ -124,71 +140,98 @@ export default class Tray extends Component {
                 <InfoTabHandle isInfoTrayOpen={this.state.isInfoTrayOpen} toggleTray={this.toggleTray} />
                 {/* </div> */}
                 <div className="info-tray-header-container">
-                  <div className="info-tray-header-title">{this.state.selectedStore.name}</div>
+                  <div className="info-tray-header-title">{this.state.selectedStore.name ? this.state.selectedStore.name : this.state.selectedStore.business_name}</div>
                   <div onClick={() => this.hideTray()} className="info-tray-close-button-container">
-                    <img className="info-tray-close-button" src={iconClose} alt="" />
+                    <SVG
+                      src={iconClose}
+                    >
+                      <img className="info-tray-close-button" alt="" />
+                    </SVG>
+                    
                   </div>
                 </div>
                 <div className="info-tray-address-and-image-container">
                   <div className="info-tray-address-container">
-                    {this.state.selectedStore.address}
+                    {this.state.selectedStore.address_1}
                   </div>
                   <div className="info-tray-store-image-container">
-                    <img className="info-tray-store-image" src={this.state.selectedStore.image} alt="" />
+                    <img className="info-tray-store-image" src={this.state.selectedStore.photo} alt="" />
                   </div>
                 </div>
                 <div className="info-tray-navigation-container">
                   <div className="info-tray-navigation-element">
-                    <img src={uberIcon} alt="" />
+                    <SVG
+                      src={uberIcon}
+                    >
+                      <img src={uberIcon} alt="" />
+                    </SVG>
                     <span>22 min</span>
                   </div>
                   <div className="info-tray-navigation-element">
-                    <img src={walkIcon} alt="" />
-                    <span>12 min</span>
+                    <SVG
+                      src={walkIcon}
+                    >
+                      <img src={walkIcon} alt="" />
+                    </SVG>
+                    <span>{this.convertToHourMin(this.state.selectedStore.walkTime)}</span>
                   </div>
                   <div className="info-tray-navigation-element">
-                    <img src={directionsIcon} alt="" />
+                    <SVG
+                      src={directionsIcon}
+                    >
+                      <img src={directionsIcon} alt="" />
+                    </SVG>
                     <span id="no-padding">Directions</span>
                   </div>
                 </div>
               </div>
-              <IsolatedScroll>
-                <div className="info-tray-more-info-container">
-                  <div className="info-tray-contacts-container">
-                    <div className="info-tray-contacts-element">
+              <div className="info-tray-more-info-container">
+                <div className="info-tray-contacts-container">
+                  <div className="info-tray-contacts-element">
+                    <SVG
+                      src={phoneIcon}
+                    >
                       <img src={phoneIcon} alt="" />
-                      <span><a href="tel:212-343-1490">212-343-1490</a></span>
-                    </div>
-                    <div className="info-tray-contacts-element">
+                    </SVG>
+                    <span><a href="tel:212-343-1490">212-343-1490</a></span>
+                  </div>
+                  <div className="info-tray-contacts-element">
+                    <SVG
+                      src={emailIcon}
+                    >
                       <img src={emailIcon} alt="" />
-                      <span><a href="mailto:marcjacobs@gmail.com">Email</a></span>
-                    </div>
-                    <div className="info-tray-contacts-element">
+                    </SVG>
+                    <span><a href="mailto:marcjacobs@gmail.com">Email</a></span>
+                  </div>
+                  <div className="info-tray-contacts-element">
+                    <SVG
+                      src={shareIcon}
+                    >
                       <img src={shareIcon} alt="" />
-                      <span id="no-padding">Share</span>
-                    </div>
-                  </div>
-                  <div className="info-tray-opening-hours-main-container">
-                    <div className="info-tray-opening-hours-header">OPENING HOURS</div>
-                    <div className="info-tray-opening-hours-container">
-                      <div className="info-tray-opening-hours-days">Mon - Sat</div>
-                      <div className="info-tray-opening-hours-days">11am - 7pm</div>
-                    </div>
-                    <div className="info-tray-opening-hours-container">
-                      <div className="info-tray-opening-hours-days">Sun</div>
-                      <div className="info-tray-opening-hours-days">12pm - 6pm</div>
-                    </div>
-                  </div>
-                  <div className="info-tray-store-info-container">
-                    <div className="info-tray-store-info-header">STORY INFO</div>
-                    <div className="info-tray-store-info-text">
-                      Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
-                      Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
-                      Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
-                    </div>
+                    </SVG>
+                    <span id="no-padding">Share</span>
                   </div>
                 </div>
-              </IsolatedScroll>
+                <div className="info-tray-opening-hours-main-container">
+                  <div className="info-tray-opening-hours-header">OPENING HOURS</div>
+                  <div className="info-tray-opening-hours-container">
+                    <div className="info-tray-opening-hours-days">Mon - Sat</div>
+                    <div className="info-tray-opening-hours-time">11am - 7pm</div>
+                  </div>
+                  <div className="info-tray-opening-hours-container">
+                    <div className="info-tray-opening-hours-days">Sun</div>
+                    <div className="info-tray-opening-hours-time">12pm - 6pm</div>
+                  </div>
+                </div>
+                <div className="info-tray-store-info-container">
+                  <div className="info-tray-store-info-header">STORY INFO</div>
+                  <div className="info-tray-store-info-text">
+                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
+                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
+                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
+                  </div>
+                </div>
+              </div>
             </div>
             : <div />
           }

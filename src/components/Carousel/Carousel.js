@@ -80,9 +80,9 @@ export default class Carousel extends Component {
           className="carousel-card-inner"
         >
           <div className="carousel-image-container">
-            <img className="carousel-image" src={item.image} alt="" />
+            <img className="carousel-image" src={item.photo} alt="" />
           </div>
-          <div className="carousel-title">{item.name}</div>
+          <div className="carousel-title">{item.name ? item.name : item.business_name}</div>
         </div>
       </div>
     );
@@ -98,7 +98,7 @@ export default class Carousel extends Component {
     }
     // User coming from city page, direct them to map
     const { history } = this.props;
-    history.push(`/store/${item.id}`, { selectedLocation: item });
+    history.push(`/store/${item.store_id}`, { selectedLocation: item });
   }
 
 

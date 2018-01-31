@@ -1,3 +1,19 @@
+.city-container {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  z-index: 99999;
+  background: white;
+}
+
+.city-ios-scroll-fix {
+  transform: translate3d(0,0,0);
+  -webkit-transform: translate3d(0,0,0);
+}
+
+
 .city-header-image {
   text-align: center;
   color: #ffffff;
@@ -43,6 +59,7 @@
 .city-experience-container {
   display: flex;
   padding: 15px 20px;
+  text-decoration: none;
 }
 
 .experience-image-container {
@@ -71,6 +88,7 @@
 
 .experience-type {
   opacity: 0.6;
+  text-transform: capitalize;
 	font-family: 'SFDisplay';
 	font-size: 14px;
 	text-align: left;
@@ -86,22 +104,17 @@
 }
 
 .experience-type-icon {
-  width: 17px;
+  width: 9px;
 }
 
 .experience-icon-container {
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  background-color: #e13ca5;
   position: absolute;
   top: -3px;
   left: -3px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.experience-type-icon {
-  width: 10px;
 }

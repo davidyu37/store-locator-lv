@@ -55,9 +55,9 @@ export default class Carousel extends Component {
 
     const translateX = cursor * cardSize;
 
-    let current = -Math.round(cursor) % this.state.stores.length;
+    let current = -Math.round(cursor) % this.props.pois.length;
     while (current < 0) {
-      current += this.state.stores.length;
+      current += this.props.pois.length;
     }
     return (
       <div
@@ -79,23 +79,36 @@ export default class Carousel extends Component {
   }
 
   renderCard(index, modIndex) {
-    const item = this.state.stores[modIndex];
+    const item = this.props.pois[modIndex];
     return (
       <div
         key={index}
         className="nearby-carousel-card"
-        // onClick={() => this.props.selectStore(item)}
+        onClick={() => this.onStoreClick(item)}
       >
         <div
           className="nearby-carousel-card-inner"
         >
           <div className="nearby-carousel-image-container">
-            <img className="nearby-carousel-image" src={item.image} alt="" />
+            <img className="nearby-carousel-image" src={item.photo} alt="" />
           </div>
           <div className="nearby-carousel-title">{item.name}</div>
         </div>
       </div>
     );
+  }
+
+  onStoreClick(item) {
+    if (this.props.selectStore) {
+      this.props.selectStore(item);
+      this.props.infoTrayStatusChange(false);
+      this.props.infoTrayHeightChange(200);
+      this.props.trayStatusChange(false);
+      return;
+    }
+    // User coming from city page, direct them to map
+    const { history } = this.props;
+    history.push(`/store/${item.id}`, { selectedLocation: item });
   }
 
 
@@ -105,10 +118,13 @@ export default class Carousel extends Component {
         <div className="nearby-header">NEARBY EXPERIENCES</div>
         <TouchCarousel
           component={this.carouselContainer}
-          cardCount={this.state.stores.length}
+          cardCount={this.props.pois.length}
           cardSize={150}
           renderCard={this.renderCard}
           loop={false}
+          moveScale={0.7}
+          // maxOverflow={0.1}
+          // clickTolerance={5}
         />
       </div>
     );

@@ -10,6 +10,7 @@ import TabHandle from './TabHandle/TabHandle';
 import Carousel from '../Carousel/Carousel';
 import Nearby from '../Carousel/Nearby/Nearby';
 import Cities from '../Carousel/Cities/Cities';
+import ExperienceButton from './ExperienceButton/ExperienceButton';
 
 
 export default class Tray extends Component {
@@ -33,17 +34,6 @@ export default class Tray extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stores !== this.state.stores) {
-      // this.setState({ stores: nextProps.stores });
-      // // if (this.state.selectedStore) {
-      //   this.transition = {
-      //     transition: '0ms'
-      //   }
-      //   setTimeout(() => this.transition = {
-      //     transition: '300ms'
-      //   }, 300)
-      // // }
-    }
     if (nextProps.isTrayOpen !== this.state.isTrayOpen) {
       this.setState({ isTrayOpen: nextProps.isTrayOpen });
       if (this.state.isTrayOpen) {
@@ -124,9 +114,18 @@ export default class Tray extends Component {
               trayStatusChange={this.props.trayStatusChange}
               isDragging={this.props.isDragging}
             />
+            {this.state.trayOverflowHeight === 210 ?
+              <ExperienceButton
+                city={this.props.city}
+              />
+              : null
+            }
             <Nearby
-              stores={this.props.stores}
+              pois={this.props.pois}
               selectStore={this.props.selectStore}
+              infoTrayStatusChange={this.props.infoTrayStatusChange}
+              infoTrayHeightChange={this.props.infoTrayHeightChange}
+              trayStatusChange={this.props.trayStatusChange}
             />
             <Cities
               stores={this.props.stores}
