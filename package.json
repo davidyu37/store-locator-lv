@@ -17,6 +17,7 @@
     "react-inlinesvg": "^0.7.4",
     "react-isolated-scroll": "^0.1.1",
     "react-pull-to-refresh": "^1.1.1",
+    "react-responsive": "^4.0.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "react-swipeable-bottom-sheet": "mattermoran/react-swipeable-bottom-sheet",

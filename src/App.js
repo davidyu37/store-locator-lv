@@ -5,9 +5,12 @@ import {
   Route,
 } from 'react-router-dom';
 
+import MediaQuery from 'react-responsive';
+
 // Import screens from here
 import Home from './screens/Home/Home';
 import City from './screens/City/City';
+import SplashScreen from './components/SplashScreen/SplashScreen';
 
 import QRCode from './components/QRCode/QRCode';
 
@@ -17,44 +20,41 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // orientation: 'portrait'
+      isLoaded: false,
     };
   }
 
-  // componentDidMount() {
-  //   let that = this;
-  //   if (window.innerWidth > window.innerHeight) {
-  //     that.setState({ orientation: 'landscape' });
-  //   }
-  //   window.addEventListener("orientationchange", function () {
-  //     if (window.matchMedia("(orientation: portrait)").matches) {
-  //       that.setState({ orientation: 'landscape' })
-  //       console.log('landscape')
-  //     }
-
-  //     if (window.matchMedia("(orientation: landscape)").matches) {
-  //       that.setState({ orientation: 'portrait' })
-  //       console.log('portrait')
-  //     }
-  //   })
-  // }
+  componentWillMount() {
+    setTimeout(() => this.setState({ isLoaded: true }), 3000);
+  }
 
   render() {
     return (
-      // <div>
-      // {this.state.orientation === 'portrait' ?
-      // <QRCode />
-      <Router>
-        <div>
-          <Route exact path="/" component={Home} />
-          <Route path="/city/:cityname" component={City} />
-          <Route path="/store/:store_id" component={Home} />
-          <Route path="/poi/:poi_id" component={Home} />
-        </div>
-      </Router>
-      // : <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px', lineHeight: '100px' }}>Only portrait available</div>
-      // }
-      // </div>
+      <div>
+        <MediaQuery query="(orientation: landscape)">
+          {(matches) => {
+            if (matches) {
+              return <QRCode />;
+            }
+            return (
+              <div>
+                <SplashScreen
+                  isLoaded={this.state.isLoaded}
+                />
+                <Router>
+                  <div>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/city/:cityname" component={City} />
+                    <Route path="/store/:store_id" component={Home} />
+                    <Route path="/poi/:poi_id" component={Home} />
+                  </div>
+                </Router>
+              </div>
+            );
+            }
+          }
+        </MediaQuery>
+      </div>
     );
   }
 }

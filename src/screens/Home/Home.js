@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import tDistance from '@turf/distance';
 import { translate } from 'react-i18next';
 
-import SplashScreen from '../../components/SplashScreen/SplashScreen';
 import Map from '../../components/Map/Map';
 import Tray from '../../components/Tray/Tray';
 import InfoTray from '../../components/InfoTray/InfoTray';
@@ -20,7 +19,7 @@ class Home extends Component {
 
     // Prevent map going to user's location if the user is coming from city page
     const { path } = props.match;
-    let goToUserLocation = true;
+    let goToUserLocation = false;
 
     if (path.startsWith('/store') || path.startsWith('/poi')) {
       goToUserLocation = false;
@@ -43,7 +42,6 @@ class Home extends Component {
       transformMap: 0,
       dragging: false,
       trayOverflowHeight: 210,
-      isLoaded: false,
       goToUserLocation,
     };
 
@@ -83,7 +81,6 @@ class Home extends Component {
     let poiData = cachedPois;
 
     if (err) {
-      setTimeout(() => this.setState({ isLoaded: true }), 3000);
       this.setState({
         stores: storeData,
         pois: poiData,
@@ -148,7 +145,6 @@ class Home extends Component {
       return data;
     }).sort((a, b) => a.distance - b.distance);
 
-    setTimeout(() => this.setState({ isLoaded: true }), 3000);
     if (dataType === 'poi') {
       return {
         pois: sortedData,
@@ -271,9 +267,6 @@ class Home extends Component {
 
     return (
       <div className="container">
-        <SplashScreen
-          isLoaded={this.state.isLoaded}
-        />
         <Map
           onRef={ref => (this.child = ref)}
           stores={cachedStores}
