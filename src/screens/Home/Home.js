@@ -31,7 +31,7 @@ class Home extends Component {
       // bound: null,
       // TODO: should be fetched through API
       // stores change by distance and map bound
-      stores: [],
+      stores: dummyStores,
       pois: dummyPoi,
       // cachedStores are the original data
       cachedStores: dummyStores,
