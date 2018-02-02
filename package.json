@@ -24,7 +24,8 @@
     "react-touch-carousel": "mattermoran/react-touch-carousel"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
+    "start": "node express.js",
     "build": "rm -rf build; npx react-scripts build",
     "test": "npx react-scripts test --env=jsdom",
     "eject": "npx react-scripts eject"
