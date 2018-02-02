@@ -14,7 +14,7 @@ import City from './screens/City/City';
 import SplashScreen from './components/SplashScreen/SplashScreen';
 
 // import QRCode from './components/QRCode/QRCode';
-
+//
 
 // Entry point of the app
 class App extends Component {
