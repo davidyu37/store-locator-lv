@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import './Map.css';
 import MJPIN from '../../assets/images/pins/Pin-MJ.png';
 import EATPIN from '../../assets/images/pins/Pin-Eats.png';
 import MUSICPIN from '../../assets/images/pins/Pin-Music.png';
 import SIGHTSPIN from '../../assets/images/pins/Pin-Sights.png';
+
+import NavBtn from '../../assets/images/map-controls/icon-location.svg';
 
 // TODO: Should pass access token through environment variable
 const accessToken = 'pk.eyJ1IjoiZGF2aWR5dTM3IiwiYSI6ImNqY2ZzMHBhZjJnZnEycWxsOThjd3UwMDcifQ.Ige72JF8lv9Sm2BfxH2KzA';
@@ -14,8 +16,10 @@ class Map extends Component {
     super(props);
     this.state = {
       center: {
-        longitude: -73.98872145388043,
-        latitude: 40.72663800497543,
+        // longitude: -73.98872145388043,
+        // latitude: 40.72663800497543,
+        longitude: 121.4737,
+        latitude: 31.2304,
       },
       zoom: 11.5,
       markers: [],
@@ -53,11 +57,11 @@ class Map extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.trayOverflowHeight !== this.props.trayOverflowHeight || nextProps.infoTrayHeight !== this.props.infoTrayHeight) {
       if (nextProps.trayOverflowHeight > nextProps.infoTrayHeight) {
-        this.setNavBtnPosition(nextProps.trayOverflowHeight + 'px');
+        this.setNavBtnPosition(`${nextProps.trayOverflowHeight - 10}px`);
       }
-  
+
       if (nextProps.infoTrayHeight > nextProps.trayOverflowHeight) {
-        this.setNavBtnPosition(nextProps.infoTrayHeight + 'px');
+        this.setNavBtnPosition(`${nextProps.infoTrayHeight - 10}px`);
       }
     }
 
@@ -72,33 +76,33 @@ class Map extends Component {
   }
 
   // Fetch user city with coordinate
-  fetchPlaceData = async (lng, lat) => {
-    // await response of fetch call
-    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?type=country,region,district&access_token=${accessToken}`);
-    // only proceed once promise is resolved
-    const data = await response.json();
-    // only proceed once second promise is resolved
-    return data;
-  }
+  // fetchPlaceData = async (lng, lat) => {
+  //   // await response of fetch call
+  //   const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?type=country,region,district&access_token=${accessToken}`);
+  //   // only proceed once promise is resolved
+  //   const data = await response.json();
+  //   // only proceed once second promise is resolved
+  //   return data;
+  // }
 
-  getCityAndCountry = (data) => {
-    const { features } = data;
-    const location = {};
-    if (features[0]) {
-      features.forEach((feature) => {
-        if (feature.place_type && feature.place_type[0] === 'region') {
-          location.city = feature.text;
-        }
-        if (feature.place_type && feature.place_type[0] === 'country') {
-          location.country = feature.text;
-        }
-        if (feature.place_type && feature.place_type[0] === 'place') {
-          location.city = feature.text;
-        }
-      });
-    }
-    this.props.updateUserCityAndCountry(location);
-  }
+  // getCityAndCountry = (data) => {
+  //   const { features } = data;
+  //   const location = {};
+  //   if (features[0]) {
+  //     features.forEach((feature) => {
+  //       if (feature.place_type && feature.place_type[0] === 'region') {
+  //         location.city = feature.text;
+  //       }
+  //       if (feature.place_type && feature.place_type[0] === 'country') {
+  //         location.country = feature.text;
+  //       }
+  //       if (feature.place_type && feature.place_type[0] === 'place') {
+  //         location.city = feature.text;
+  //       }
+  //     });
+  //   }
+  //   this.props.updateUserCityAndCountry(location);
+  // }
 
   // clearMarkers(markers) {
   //     markers.forEach((marker) => {
@@ -130,12 +134,25 @@ class Map extends Component {
     });
 
     this.map.addControl(this.geolocate, 'bottom-left');
+    this.setNavBtnImage(this.geolocate._geolocateButton);
 
     if (this.props.goToUserLocation) {
       this.getLocationTimeout = setTimeout(this.geolocate._onClickGeolocate.bind(this.geolocate), 100);
     }
 
-    // this.updateBound();
+    this.map.on('load', () => {
+      const mapCenter = this.map.getCenter();
+      this.props.getMapCenter(mapCenter);
+    });
+
+    this.map.on('dragstart', () => {
+      this.props.deselectStore();
+    });
+
+    this.map.on('moveend', () => {
+      const mapCenter = this.map.getCenter();
+      this.props.getMapCenter(mapCenter);
+    });
 
     // Listen to zoom events
     // Event types: zoomstart, zoom, zoomend
@@ -146,9 +163,6 @@ class Map extends Component {
     // this.map.on('dragend', (e) => {
     // });
 
-    // this.map.on('dragstart', (e) => {
-    //   this.props.deselectStore();
-    // });
 
     // Use this to get coordinates on map
     // this.map.on('click', (e) => {
@@ -157,9 +171,17 @@ class Map extends Component {
     // });
   }
 
+  setNavBtnImage = (elem) => {
+    if (elem) {
+      elem.style.backgroundImage = `url('${NavBtn}')`;
+    }
+  }
+
   setNavBtnPosition = (px) => {
     const btnElems = document.getElementsByClassName('mapboxgl-ctrl-bottom-left');
-    btnElems[0].style.bottom = px;
+    if (btnElems[0]) {
+      btnElems[0].style.bottom = px;
+    }
   }
 
   getUserCoordinates() {
@@ -168,14 +190,58 @@ class Map extends Component {
         const { latitude, longitude } = position.coords;
 
         this.props.updateUserLocation(null, [longitude, latitude]);
-        this.fetchPlaceData(longitude, latitude)
-          .then(data => this.getCityAndCountry(data))
-          .catch(reason => console.log(reason.message));
+        // this.fetchPlaceData(longitude, latitude)
+        //   .then(data => this.getCityAndCountry(data))
+        //   .catch(reason => console.log(reason.message));
       }, err => this.props.updateUserLocation(err, []),
       {
         enableHighAccuracy: true,
       },
     );
+  }
+
+  fitToBound(point1, point2) {
+    if (point1 && point2) {
+      const bounds = new mapboxgl.LngLatBounds();
+      const roundPt1Lng = Math.floor(point1[0] * 1000000) / 1000000;
+      const roundPt1Lat = Math.floor(point1[1] * 1000000) / 1000000;
+      const roundPt2Lng = Math.floor(point2[0] * 1000000) / 1000000;
+      const roundPt2Lat = Math.floor(point2[1] * 1000000) / 1000000;
+
+      let standardSWNEbound = false;
+
+      if (roundPt1Lat > roundPt2Lat && roundPt1Lng > roundPt2Lng) {
+        bounds.extend([
+          [
+            roundPt2Lng,
+            roundPt2Lat,
+          ],
+          [
+            roundPt1Lng,
+            roundPt1Lat,
+          ],
+        ]);
+        standardSWNEbound = true;
+      } else if (roundPt2Lat > roundPt1Lat && roundPt2Lng > roundPt1Lng) {
+        bounds.extend([
+          [
+            roundPt1Lng,
+            roundPt1Lat,
+          ],
+          [
+            roundPt2Lng,
+            roundPt2Lat,
+          ],
+        ]);
+        standardSWNEbound = true;
+      }
+
+      if (standardSWNEbound) {
+        this.map.fitBounds(bounds, { offset: [0, -150] });
+      } else {
+        this.map.setCenter([roundPt2Lng, roundPt2Lat]);
+      }
+    }
   }
 
   updateBound() {
@@ -334,13 +400,6 @@ class Map extends Component {
   zoomOut() {
     this.map.flyTo({ zoom: 11.5 });
     // this.map.setZoom({ zoom: 15 });
-  }
-
-  getUserLocation() {
-    this.shrinkMarker();
-    // Get user's location programtically
-    this.geolocate._onClickGeolocate.bind(this.geolocate);
-    this.getUserCoordinates();
   }
 
   render() {

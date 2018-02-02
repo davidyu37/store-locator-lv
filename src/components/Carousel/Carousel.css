@@ -1,6 +1,6 @@
 .carousel-container {
   position: relative;
-  height: 110px;
+  height: 130px;
   /* max-width: 960px; */
   margin: 0 auto;
   overflow: hidden;
@@ -14,7 +14,7 @@
 }
 
 .carousel-card {
-  margin: 10px;
+  padding: 10px;
   flex: 0 0 100px;
   height: 100%;
   display: flex;
@@ -52,4 +52,12 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   text-transform: uppercase;
+}
+
+.carousel-subtitle {
+  font-size: 14px;
+  color: rgba(87, 87, 87, 0.6);
+  overflow: hidden; 
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 
-import SVG from 'react-inlinesvg';
-
 import './InfoTabHandle.css';
 
-import tabHandleUp from '../../../assets/images/icons/handle-up.svg';
-import tabHandleDown from '../../../assets/images/icons/handle-down.svg';
+import { ReactComponent as TabHandleUp } from '../../../assets/images/icons/handle-up.svg';
+import { ReactComponent as TabHandleDown } from '../../../assets/images/icons/handle-down.svg';
 
 
 export default class InfoTabHandle extends Component {
@@ -21,13 +19,9 @@ export default class InfoTabHandle extends Component {
       <div className="info-tab-handle-container">
         <div
           onClick={() => this.props.toggleTray()}
-          // className="info-tab-handle-image"
+        // className="tab-handle-image"
         >
-          <SVG
-            src={this.props.isInfoTrayOpen ? tabHandleDown : tabHandleUp}
-          >
-            <img src={this.props.isInfoTrayOpen ? tabHandleDown : tabHandleUp} alt="" />
-          </SVG>
+          {this.props.isTrayOpen ? <TabHandleDown /> : <TabHandleUp />}
         </div>
       </div>
     );

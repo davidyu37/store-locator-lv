@@ -9,8 +9,10 @@ import InfoTray from '../../components/InfoTray/InfoTray';
 import NoStoresTray from '../../components/NoStoresTray/NoStoresTray';
 import './Home.css';
 
-import dummyStores from '../../assets//data/stores.json';
-import dummyPoi from '../../assets//data/poi.json';
+import dummyStores from '../../assets/data/stores.json';
+import dummyPoi from '../../assets/data/poi.json';
+
+import dummyCity from '../../assets/data/city.json';
 
 // Entry point of the app
 class Home extends Component {
@@ -41,7 +43,7 @@ class Home extends Component {
       infoTrayHeight: 0,
       transformMap: 0,
       dragging: false,
-      trayOverflowHeight: 210,
+      trayOverflowHeight: 230,
       goToUserLocation,
     };
 
@@ -54,7 +56,7 @@ class Home extends Component {
     // Map related
     this.updateUserLocation = this.updateUserLocation.bind(this);
     this.deselectStore = this.deselectStore.bind(this);
-    this.updateUserCityAndCountry = this.updateUserCityAndCountry.bind(this);
+    // this.updateUserCityAndCountry = this.updateUserCityAndCountry.bind(this);
 
     this.getTransformMap = this.getTransformMap.bind(this);
     this.isDragging = this.isDragging.bind(this);
@@ -89,11 +91,14 @@ class Home extends Component {
       return;
     }
 
-    storeData = this.updateStoreData(coord, 'store');
-    poiData = this.updateStoreData(coord, 'poi');
+    storeData = this.sortDataByDistanceToUser(coord, 'store');
+    poiData = this.sortDataByDistanceToUser(coord, 'poi');
 
     if (!poiData) {
       this.setState({ trayOverflowHeight: 150 });
+    }
+    if (storeData.stores) {
+      this.child.fitToBound(coord, [storeData.stores[0].long, storeData.stores[0].lat]);
     }
 
     this.setState({
@@ -102,12 +107,36 @@ class Home extends Component {
     });
   }
 
-  updateUserCityAndCountry(location) {
-    // location contains country and city
-    if (location.country && location.city) {
+  isWithinCity = (location) => {
+    const cityUserIn = dummyCity.filter((city) => {
+      const distToCityCenter = tDistance(location, [city.longitude, city.latitude], { unit: 'kilometers' });
+      if (distToCityCenter < city.radius_km) {
+        return true;
+      }
+      return false;
+    });
+    return cityUserIn[0];
+  }
+
+  getMapCenter = (center) => {
+    const { cachedStores, cachedPois } = this.state;
+    // Find the city where the center of the map is
+    const city = this.isWithinCity([center.lng, center.lat]);
+    // If mapcenter is within the city radius filter the stores and pois
+    if (city) {
+      // Use the city coordinates and radius to filter the stores and pois data
+      const stores = this.filterByCityRadius(city, cachedStores);
+      const pois = this.filterByCityRadius(city, cachedPois);
+
       this.setState({
-        // country: location.country,
-        city: location.city,
+        stores,
+        pois,
+        city: city.name,
+      });
+    } else {
+      // Show default tray instead
+      this.setState({
+        city: '',
       });
     }
   }
@@ -116,18 +145,27 @@ class Home extends Component {
     this.selectStore(store, 'init');
     this.infoTrayHeightChange(210);
     this.trayStatusChange(false);
-    this.setState({
-      isLoaded: true,
-    });
   }
 
-  updateStoreData(coord, dataType) {
+  filterByCityRadius = (city, data) => {
+    const clonedData = data.slice(0);
+    const filtered = clonedData.filter((d) => {
+      if (d.lat && d.long) {
+        const distToCityCenter = tDistance([Number(city.longitude), Number(city.latitude)], [Number(d.long), Number(d.lat)], { unit: 'kilometers' });
+        return distToCityCenter < city.radius_km;
+      }
+      return console.error('Data doesnt have lat and long', d);
+    });
+    return filtered;
+  }
+
+  sortDataByDistanceToUser(coord, dataType) {
     // update the store with distance relative to user
-    const { cachedStores, cachedPois } = this.state;
-    let datas = cachedStores.slice(0);
+    const { stores, pois } = this.state;
+    let datas = stores.slice(0);
     // TODO: use dataType to filter store/poi data
     if (dataType === 'poi') {
-      datas = cachedPois.slice(0);
+      datas = pois.slice(0);
     }
 
     const roundedCoord = [
@@ -148,59 +186,14 @@ class Home extends Component {
     if (dataType === 'poi') {
       return {
         pois: sortedData,
-        cachedPois: sortedData,
       };
     }
 
     return {
       stores: sortedData,
-      cachedStores: sortedData,
     };
   }
-
-  // onBoundChange = (bound) => {
-  //   // If Bound logic is needed in the future, write it here
-  // }
-
-  // filterStore = (bound, stores) => {
-  //   let filteredStores = [];
-  //   const notWithinBound = [];
-  //   if (bound) {
-  //     // If there's bound filter the store
-  //     const { _sw, _ne } = bound;
-  //     filteredStores = stores.filter((s) => {
-  //       const storeLongitude = parseFloat(s.long);
-  //       const storeLatitude = parseFloat(s.lat);
-
-  //       if (storeLongitude >= _sw.lng && storeLongitude <= _ne.lng) {
-  //         if (storeLatitude >= _sw.lat && storeLatitude <= _ne.lat) {
-  //           return true;
-  //         }
-  //       }
-  //       notWithinBound.push(s);
-  //       return false;
-  //     });
-  //   }
-
-  //   // If there's no stores within map bound, return the sorted stores
-  //   if (filteredStores.length === 0) {
-  //     return stores;
-  //   }
-
-  //   // To avoid carousel looking lonely with a few stores, fill in store that closest to user
-  //   if (filteredStores.length < 4) {
-  //     const fillInNum = 4 - filteredStores.length;
-
-  //     const fillStores = notWithinBound.slice(0, fillInNum);
-
-  //     const modifiedStores = filteredStores.concat(fillStores);
-
-  //     return modifiedStores;
-  //   }
-
-  //   return filteredStores;
-  // }
-
+  
   selectStore(store, mapStatus) {
     this.setState({ selectedStore: store });
     if (mapStatus === 'init') {
@@ -240,7 +233,7 @@ class Home extends Component {
       this.setState({ trayOverflowHeight: 0 });
       return;
     }
-    this.setState({ trayOverflowHeight: 210 });
+    this.setState({ trayOverflowHeight: 230 });
   }
 
 
@@ -283,8 +276,8 @@ class Home extends Component {
           dragging={this.state.dragging}
           trayOverflowHeight={this.state.trayOverflowHeight}
           infoTrayHeight={this.state.infoTrayHeight}
-          updateUserCityAndCountry={this.updateUserCityAndCountry}
           goToUserLocation={goToUserLocation}
+          getMapCenter={this.getMapCenter}
         />
         {this.state.city ?
           <Tray

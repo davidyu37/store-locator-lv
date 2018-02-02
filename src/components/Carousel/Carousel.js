@@ -83,6 +83,7 @@ export default class Carousel extends Component {
             <img className="carousel-image" src={item.photo} alt="" />
           </div>
           <div className="carousel-title">{item.name ? item.name : item.business_name}</div>
+          <div className="carousel-subtitle">{item.display_address ? item.display_address : item.address_1}</div>
         </div>
       </div>
     );
@@ -111,9 +112,10 @@ export default class Carousel extends Component {
           cardSize={150}
           renderCard={this.renderCard}
           // moveScale={3}
-          maxOverflow={0.1}
+          maxOverflow={0.5}
           clickTolerance={5}
           loop={false}
+          cardsOnPage={2}
         />
       </div>
     );

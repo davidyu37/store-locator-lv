@@ -16,28 +16,12 @@ import london from '../../../assets/images/cities/london.png';
 
 const citiesItems = [
   {
-    name: 'LONDON',
-    image: london,
-  },
-  {
-    name: 'PARIS',
-    image: paris,
-  },
-  {
     name: 'NEW YORK',
     image: ny,
   },
   {
     name: 'SHANGHAI',
     image: shanghai,
-  },
-  {
-    name: 'DUBAI',
-    image: dubai,
-  },
-  {
-    name: 'MIAMI',
-    image: miami,
   },
 ];
 
@@ -120,6 +104,7 @@ export default class Carousel extends Component {
           renderCard={this.renderCard}
           loop={false}
           moveScale={0.8}
+          cardsOnPage={2}
           // maxOverflow={0.1}
           // clickTolerance={5}
         />

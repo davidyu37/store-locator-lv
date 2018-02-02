@@ -123,6 +123,7 @@ export default class Carousel extends Component {
           renderCard={this.renderCard}
           loop={false}
           moveScale={0.7}
+          cardsOnPage={1}
           // maxOverflow={0.1}
           // clickTolerance={5}
         />

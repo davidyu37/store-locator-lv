@@ -180,6 +180,7 @@
 .info-tray-opening-hours-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   font-size: 15px;
 	line-height: 1.33;
 	text-align: left;
@@ -187,11 +188,19 @@
 }
 
 .info-tray-opening-hours-days {
-  width: 100%;
+  width: 50%;
 }
 
-.info-tray-opening-hours-time {
-  width: 100%;
+.info-tray-opening-hours-days-container {
+  display: flex;
+}
+
+.info-tray-opening-hours-days-day {
+  width: 30%;
+}
+
+.info-tray-opening-hours-days-time {
+  /* width: 75%; */
 }
 
 

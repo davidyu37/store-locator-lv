@@ -1,0 +1,20 @@
+[
+  {
+    "name": "New York",
+    "poster": "",
+    "cover": "",
+    "desc": "",
+    "longitude": -74.0060,
+    "latitude": 40.7128,
+    "radius_km": 50
+  },
+  {
+    "name": "Shanghai",
+    "poster": "",
+    "cover": "",
+    "desc": "",
+    "longitude": 121.4737,
+    "latitude": 31.2304,
+    "radius_km": 50
+  }
+]

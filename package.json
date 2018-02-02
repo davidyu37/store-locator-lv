@@ -19,9 +19,9 @@
     "react-pull-to-refresh": "^1.1.1",
     "react-responsive": "^4.0.3",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0",
+    "react-scripts": "2.0.0-next.9754a231",
     "react-swipeable-bottom-sheet": "mattermoran/react-swipeable-bottom-sheet",
-    "react-touch-carousel": "^0.8.2"
+    "react-touch-carousel": "mattermoran/react-touch-carousel"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,10 +30,22 @@
     "eject": "npx react-scripts eject"
   },
   "devDependencies": {
-    "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.0"
+  },
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
   }
 }

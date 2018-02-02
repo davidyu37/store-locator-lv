@@ -5,22 +5,22 @@
 // Translation samples: http://i18next.github.io/i18next/pages/sample.html?setLng=de-DE
 
 import i18n from 'i18next'; // Document: https://www.i18next.com/api.html#language
-// import XHR from 'i18next-xhr-backend';
+import XHR from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { reactI18nextModule } from 'react-i18next';
 
 
 i18n
   // TODO: should be enabled once server is up
-  // .use(XHR)
+  .use(XHR)
   .use(LanguageDetector)
   .use(reactI18nextModule) // if not using I18nextProvider
   .init({
     fallbackLng: 'en-us',
     debug: false,
     lowerCaseLng: true,
-    ns: ['stores'],
-    defaultNS: 'stores',
+    ns: ['app', 'stores'],
+    defaultNS: 'app',
     interpolation: {
       escapeValue: false, // not needed for react!!
     },

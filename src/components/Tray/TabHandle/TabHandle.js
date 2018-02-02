@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 
-import SVG from 'react-inlinesvg';
-
 import './TabHandle.css';
 
-import tabHandleUp from '../../../assets/images/icons/handle-up.svg';
-import tabHandleDown from '../../../assets/images/icons/handle-down.svg';
+import { ReactComponent as TabHandleUp } from '../../../assets/images/icons/handle-up.svg';
+import { ReactComponent as TabHandleDown } from '../../../assets/images/icons/handle-down.svg';
 
 export default class TabHandle extends Component {
   constructor(props) {
@@ -22,11 +20,7 @@ export default class TabHandle extends Component {
           onClick={() => this.props.toggleTray()}
           // className="tab-handle-image"
         >
-          <SVG
-            src={this.props.isTrayOpen ? tabHandleDown : tabHandleUp}
-          >
-            <img onClick={this.props.toggleTray} className="tab-handle-image" src={this.props.isTrayOpen ? tabHandleDown : tabHandleUp} alt="" />
-          </SVG>
+          {this.props.isTrayOpen ? <TabHandleDown /> : <TabHandleUp />}
         </div>
       </div>
     );

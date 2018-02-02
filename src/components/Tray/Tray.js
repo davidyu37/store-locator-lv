@@ -114,7 +114,7 @@ export default class Tray extends Component {
               trayStatusChange={this.props.trayStatusChange}
               isDragging={this.props.isDragging}
             />
-            {this.state.trayOverflowHeight === 210 ?
+            {this.state.trayOverflowHeight === 230 ?
               <ExperienceButton
                 city={this.props.city}
               />

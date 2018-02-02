@@ -15,13 +15,14 @@
 }
 
 /* Setting position with javascript */
-/* .mapboxgl-ctrl-bottom-left {
-    bottom: 210px;
-} */
+.mapboxgl-ctrl-bottom-left {
+    bottom: 220px;
+    transition: all 300ms ease 0s;
+}
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
     background-position: center;
-    background-image: url("../../assets/images/map-controls/icon-location.svg");
+    /* background-image: url("../../assets/images/map-controls/icon-location.svg"); */
     background-repeat: no-repeat;
 }
 

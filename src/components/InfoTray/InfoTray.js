@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
-import SVG from 'react-inlinesvg';
-
 import './InfoTray.css';
 
-import iconClose from '../../assets/images/icons/icon-close.svg';
-import uberIcon from '../../assets/images/icons/icon-uber.svg';
-import walkIcon from '../../assets/images/icons/icon-walk.svg';
-import directionsIcon from '../../assets/images/icons/icon-directions.svg';
+import { ReactComponent as IconClose } from '../../assets/images/icons/icon-close.svg';
+import { ReactComponent as UberIcon } from '../../assets/images/icons/icon-uber.svg';
+import { ReactComponent as WalkIcon } from '../../assets/images/icons/icon-walk.svg';
+import { ReactComponent as DirectionsIcon } from '../../assets/images/icons/icon-directions.svg';
 
-import phoneIcon from '../../assets/images/icons/icon-telephone.svg';
-import emailIcon from '../../assets/images/icons/icon-email.svg';
-import shareIcon from '../../assets/images/icons/icon-share.svg';
+import { ReactComponent as PhoneIcon } from '../../assets/images/icons/icon-telephone.svg';
+import { ReactComponent as EmailIcon } from '../../assets/images/icons/icon-email.svg';
+import { ReactComponent as ShareIcon } from '../../assets/images/icons/icon-share.svg';
 
 
 import InfoTabHandle from './InfoTabHandle/InfoTabHandle';
@@ -41,6 +39,36 @@ export default class Tray extends Component {
     this.transition = {
       transition: '300ms',
     };
+    this.daysOfWeek = [
+      {
+        short: 'Mon',
+        full: 'monday_business_hours',
+      },
+      {
+        short: 'Tue',
+        full: 'tuesday_business_hours',
+      },
+      {
+        short: 'Wed',
+        full: 'wednesday_business_hours',
+      },
+      {
+        short: 'Thu',
+        full: 'thursday_business_hours',
+      },
+      {
+        short: 'Fri',
+        full: 'friday_business_hours',
+      },
+      {
+        short: 'Sat',
+        full: 'saturday_business_hours',
+      },
+      {
+        short: 'Sun',
+        full: 'sunday_business_hours',
+      },
+    ];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -113,6 +141,15 @@ export default class Tray extends Component {
     return `${min} MIN`;
   }
 
+  workingHours = (short, full) => (
+    <div className="info-tray-opening-hours-days">
+      <div className="info-tray-opening-hours-days-container">
+        <div className="info-tray-opening-hours-days-day">{short}</div>
+        <div className="info-tray-opening-hours-days-time">{full}</div>
+      </div>
+    </div>
+  );
+
   render() {
     return (
       <div className="info-tray">
@@ -142,12 +179,7 @@ export default class Tray extends Component {
                 <div className="info-tray-header-container">
                   <div className="info-tray-header-title">{this.state.selectedStore.name ? this.state.selectedStore.name : this.state.selectedStore.business_name}</div>
                   <div onClick={() => this.hideTray()} className="info-tray-close-button-container">
-                    <SVG
-                      src={iconClose}
-                    >
-                      <img className="info-tray-close-button" alt="" />
-                    </SVG>
-                    
+                    <IconClose />
                   </div>
                 </div>
                 <div className="info-tray-address-and-image-container">
@@ -160,27 +192,15 @@ export default class Tray extends Component {
                 </div>
                 <div className="info-tray-navigation-container">
                   <div className="info-tray-navigation-element">
-                    <SVG
-                      src={uberIcon}
-                    >
-                      <img src={uberIcon} alt="" />
-                    </SVG>
+                    <UberIcon />
                     <span>22 min</span>
                   </div>
                   <div className="info-tray-navigation-element">
-                    <SVG
-                      src={walkIcon}
-                    >
-                      <img src={walkIcon} alt="" />
-                    </SVG>
+                    <WalkIcon />
                     <span>{this.convertToHourMin(this.state.selectedStore.walkTime)}</span>
                   </div>
                   <div className="info-tray-navigation-element">
-                    <SVG
-                      src={directionsIcon}
-                    >
-                      <img src={directionsIcon} alt="" />
-                    </SVG>
+                    <DirectionsIcon />
                     <span id="no-padding">Directions</span>
                   </div>
                 </div>
@@ -188,47 +208,28 @@ export default class Tray extends Component {
               <div className="info-tray-more-info-container">
                 <div className="info-tray-contacts-container">
                   <div className="info-tray-contacts-element">
-                    <SVG
-                      src={phoneIcon}
-                    >
-                      <img src={phoneIcon} alt="" />
-                    </SVG>
+                    <PhoneIcon />
                     <span><a href="tel:212-343-1490">212-343-1490</a></span>
                   </div>
                   <div className="info-tray-contacts-element">
-                    <SVG
-                      src={emailIcon}
-                    >
-                      <img src={emailIcon} alt="" />
-                    </SVG>
+                    <EmailIcon />
                     <span><a href="mailto:marcjacobs@gmail.com">Email</a></span>
                   </div>
                   <div className="info-tray-contacts-element">
-                    <SVG
-                      src={shareIcon}
-                    >
-                      <img src={shareIcon} alt="" />
-                    </SVG>
+                    <ShareIcon />
                     <span id="no-padding">Share</span>
                   </div>
                 </div>
                 <div className="info-tray-opening-hours-main-container">
                   <div className="info-tray-opening-hours-header">OPENING HOURS</div>
                   <div className="info-tray-opening-hours-container">
-                    <div className="info-tray-opening-hours-days">Mon - Sat</div>
-                    <div className="info-tray-opening-hours-time">11am - 7pm</div>
-                  </div>
-                  <div className="info-tray-opening-hours-container">
-                    <div className="info-tray-opening-hours-days">Sun</div>
-                    <div className="info-tray-opening-hours-time">12pm - 6pm</div>
+                    {this.daysOfWeek.map(day => this.workingHours(day.short, this.state.selectedStore[day.full]))}
                   </div>
                 </div>
                 <div className="info-tray-store-info-container">
-                  <div className="info-tray-store-info-header">STORY INFO</div>
+                  <div className="info-tray-store-info-header">STORE INFORMATION</div>
                   <div className="info-tray-store-info-text">
-                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
-                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
-                    Browse Marc Jacobs watches, perfume, bags, clothing, and more at a store near you. Shop one of our convenient Marc Jacobs stores, outlets or Bookmarc locations.
+                    {this.state.selectedStore.description}
                   </div>
                 </div>
               </div>

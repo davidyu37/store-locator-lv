@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { translate } from 'react-i18next';
 
 import './ExperienceButton.css';
 
 
-export default class ExperienceButton extends Component {
+export class ExperienceButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,12 +14,14 @@ export default class ExperienceButton extends Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
       <Link to={`/city/${this.props.city}`} className="experience-button-container">
-        {/* <div > */}
-          EXPERIENCE {this.props.city}
-        {/* </div> */}
+        {t('experience')} {this.props.city}
       </Link>
     );
   }
 }
+
+export default translate()(ExperienceButton);
