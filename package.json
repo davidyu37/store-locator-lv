@@ -5,6 +5,8 @@
   "dependencies": {
     "@turf/distance": "^5.1.5",
     "classnames": "^2.2.5",
+    "compression": "^1.7.1",
+    "express": "^4.16.2",
     "i18next": "^10.2.2",
     "i18next-browser-languagedetector": "^2.1.0",
     "i18next-xhr-backend": "^1.5.1",
