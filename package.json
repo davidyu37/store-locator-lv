@@ -30,7 +30,8 @@
     "start": "node express.js",
     "build": "rm -rf build; npx react-scripts build",
     "test": "npx react-scripts test --env=jsdom",
-    "eject": "npx react-scripts eject"
+    "eject": "npx react-scripts eject",
+    "deploy": "git add . && git commit -m 'deploy' && git push heroku master"
   },
   "browserslist": {
     "development": [
